@@ -11,6 +11,8 @@ GameBowie.CstrMain = function() {
         init(screen, output, dropzone) {
             div.output   = output;
             div.dropzone = dropzone;
+
+            emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.01, a JavaScript based GAMEBOY emulator');
         },
 
         openFile(file) {

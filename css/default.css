@@ -115,7 +115,7 @@ canvas {
 /* Console */
 #output {
     flex: 1;
-    color: #93a0a8;
+    color: #444;
     font: normal 13px 'Andale Mono', sans-serif;
     border-top: 1px solid rgba(0, 0, 0, .2);
     border-bottom: 1px solid rgba(0, 0, 0, .2);
@@ -123,13 +123,13 @@ canvas {
     overflow-y: scroll;
 }
 #output > .info {
-    color: #1ba1a4;
+    color: #82732e;
 }
 #output > .error {
-    color: #de1429;
+    color: #991e57;
 }
 #output > .info > span, #output > .error > span {
-    color: #f5cb0f;
+    color: #1d2089;
 }
 #footer .panel-r {
     display: flex;
@@ -151,7 +151,7 @@ canvas {
     transition: border .2s ease-in-out;
 }
 .dropzone-active {
-    border: 5px solid #93a0a8 !important;
+    border: 5px solid #991e57 !important;
 }
 #dropzone > img {
     width: 45px;
