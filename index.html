@@ -7,9 +7,51 @@
 
   <style>
     @import url('css/normalize.css');
+    @import url('css/default.css');
   </style>
 </head>
 <body>
+  <div id="container">
+    <div id="header">
+    </div>
+
+    <!-- Main -->
+    <div id="main">
+      <div class="centered-v">
+        <div class="header">
+           <img class="ps" src="res/seal.png"/>
+           <div class="brand">GAME BOWIE</div>
+        </div>
+
+        <!-- Screen -->
+        <div class="screen">
+          <canvas id="screen" width="640" height="480">
+            No support for <code>canvas</code> element.
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panels -->
+    <div id="footer">
+      <div class="centered-h">
+        <div class="panel-l">
+          <div class="header">CONSOLE</div>
+          <div id="output"></div>
+        </div>
+        <div class="panel-r">
+          <div id="dropzone" ondrop="psx.drop.file(event)" ondragenter="psx.drop.enter()" ondragleave="psx.drop.exit()" ondragover="psx.drop.over(event)" onclick="chooseFile()">
+            <img src="res/drop.png"/>
+            <div>DROP GAMEBOY GAMES HERE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fork me on GitHub -->
+  <a href="https://github.com/dkoluris/GameBowie"><img id="fork-me" src="res/fork-me.png" alt="Fork me on GitHub"></a>
+
   <script src="dist/quer-3.5.1.slim.min.js"></script>
 </body>
 </html>
