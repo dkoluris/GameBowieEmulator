@@ -52,9 +52,9 @@ canvas {
 
 /* Small header */
 #header {
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, .15);
     height: 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
 }
 
 /* Main */
@@ -68,12 +68,12 @@ canvas {
     align-items: center;
     min-height: 50px;
 }
-#main .ps {
+#main .seal {
     width: 32px;
 }
 #main .brand {
     color: #1d2089;
-    font: normal 28px 'GB Brand', sans-serif;
+    font: normal 29px 'GB Brand', sans-serif;
     letter-spacing: 1px;
     MARGIN-left: 15px;
 }
@@ -117,8 +117,8 @@ canvas {
     flex: 1;
     color: #93a0a8;
     font: normal 13px 'Andale Mono', sans-serif;
-    border-top: 1px solid rgba(0, 0, 0, .15);
-    border-bottom: 1px solid rgba(0, 0, 0, .15);
+    border-top: 1px solid rgba(0, 0, 0, .2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
     padding: 7px 0;
     overflow-y: scroll;
 }

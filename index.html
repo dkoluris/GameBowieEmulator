@@ -19,7 +19,7 @@
     <div id="main">
       <div class="centered-v">
         <div class="header">
-           <img class="ps" src="res/seal.png"/>
+           <img class="seal" src="res/seal.png"/>
            <div class="brand">GAME BOWIE</div>
         </div>
 
@@ -40,7 +40,7 @@
           <div id="output"></div>
         </div>
         <div class="panel-r">
-          <div id="dropzone" ondrop="psx.drop.file(event)" ondragenter="psx.drop.enter()" ondragleave="psx.drop.exit()" ondragover="psx.drop.over(event)" onclick="chooseFile()">
+          <div id="dropzone" ondrop="emulator.drop.file(event)" ondragenter="emulator.drop.enter()" ondragleave="emulator.drop.exit()" ondragover="emulator.drop.over(event)" onclick="chooseFile()">
             <img src="res/drop.png"/>
             <div>DROP GAMEBOY GAMES HERE</div>
           </div>
@@ -53,5 +53,34 @@
   <a href="https://github.com/dkoluris/GameBowie"><img id="fork-me" src="res/fork-me.png" alt="Fork me on GitHub"></a>
 
   <script src="dist/quer-3.5.1.slim.min.js"></script>
+
+  <script>
+    function chooseFile() {
+      $('<input type="file">').on('change', function () {
+        emulator.openFile(this.files[0]);
+      }).click();
+    }
+
+    $(function() {
+      const screen   = $('#screen');
+      const output   = $('#output');
+      const dropzone = $('#dropzone');
+
+      // Startup
+      setTimeout(function() {
+        emulator.init(screen, output, dropzone);
+
+        $(document).keydown(function(e) {
+          input.padListener(e.keyCode, true);
+          //console.info('down' + e.keyCode);
+        });
+
+        $(document).keyup(function(e) {
+          input.padListener(e.keyCode, false);
+          //console.info('up' + e.keyCode);
+        });
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
