@@ -94,6 +94,14 @@
 #define LCD_RES_Y \
     144
 
+// Interrupts
+#define IRQ_VBLANK  0x01
+#define IRQ_LCDC    0x02
+#define IRQ_TIMER   0x04
+#define IRQ_SERIAL  0x08
+#define IRQ_CONTROL 0x10
+#define IRQ_ANY     0x1f
+
 // Console output
 #define MSG_INFO  'info'
 #define MSG_ERROR 'error'

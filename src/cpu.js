@@ -1,13 +1,13 @@
 /* Base structure taken from GAMEBOY open source emulator, and improved upon (Credits: Peter Johnson (zid)) */
 
 GameBowie.CstrSharpSM83 = function() {
-    let halt;
     let tmp8, tmp8_2, tmp16, tmp32;
 
     // Exposed class functions/variables
     return {
-        pc: undefined,
-        sp: undefined,
+          pc: undefined,
+          sp: undefined,
+        halt: undefined,
 
         // REGS
         r: {
@@ -22,9 +22,9 @@ GameBowie.CstrSharpSM83 = function() {
         },
 
         reset() {
-            cpu.pc = 0x0;
-            cpu.sp = 0xfffe;
-            halt   = false;
+            cpu.pc   = 0x0;
+            cpu.sp   = 0xfffe;
+            cpu.halt = false;
 
             setAF(0x01b0);
             setBC(0x0013);
@@ -33,7 +33,7 @@ GameBowie.CstrSharpSM83 = function() {
         },
 
         step() {
-            if (halt) {
+            if (cpu.halt) {
                 return 0;
             }
 
@@ -601,7 +601,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x76: // HALT
-                    halt = true;
+                    cpu.halt = true;
                     break;
 
                 case 0x77: // LD (HL), A

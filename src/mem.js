@@ -191,7 +191,7 @@ GameBowie.CstrMem = function() {
                     case 0xff50 ... 0xff7f: // ?
                     case 0xff01: // ?
                     case 0xff02: // ?
-                        return rmem.ram.ub[addr];
+                        return mem.ram.ub[addr];
 
                     case 0xff00: // Gamepad
                         return input.read();
@@ -218,6 +218,10 @@ GameBowie.CstrMem = function() {
                 emulator.error('Read 08 Address ' + emulator.hex(addr));
                 return 0;
             }
+        },
+
+        rawAccess(addr) {
+            return mem.ram.ub[addr];
         }
     };
 };
