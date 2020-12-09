@@ -36,7 +36,6 @@ GameBowie.CstrMain = function() {
         suspended = false;
 
         while (!suspended) {
-        //for (let i = 0; i < 1000; i++) {
             // Check for queued interrupts
             bus.interruptsUpdate();
 
@@ -57,7 +56,6 @@ GameBowie.CstrMain = function() {
         },
 
         pixel(h, v, color) {
-            //console.info('h: ' + h + ' v: ' + v + ' color: ' + color);
             ctx.fillStyle = palette[color];
             ctx.fillRect(h, v, 1, 1);
         },

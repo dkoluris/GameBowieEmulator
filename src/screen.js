@@ -19,66 +19,19 @@ GameBowie.CstrScreen = function() {
     const LCD_START_VRAM = 0x8000;
     const LCD_START_OAM  = 0xfe00;
 
-    const base = {
-             frames: undefined,
-               line: undefined,
-        lineCompare: undefined,
-               mode: undefined,
-    };
+    let base    = {};
+    let control = {};
+    let status  = {};
+    let scroll  = {};
+    let window  = {};
+    let dma     = {};
 
-    const control = {
-           drawEnabled: undefined,
-        spritesEnabled: undefined,
-            spriteSize: undefined,
-           backTileMap: undefined,
-              tileData: undefined,
-         windowEnabled: undefined,
-         windowTileMap: undefined,
-            lcdEnabled: undefined,
-    };
-
-    const status = {
-              mode: undefined,
-            hblank: undefined,
-            vblank: undefined,
-               oam: undefined,
-        coincident: undefined,
-    };
-
-    const scroll = {
-        h: undefined,
-        v: undefined,
-    };
-
-    const window = {
-        h: undefined,
-        v: undefined,
-    };
-
-    const dma = {
-           raw: undefined,
-           src: undefined,
-        offset: undefined,
-        frames: undefined,
-    };
-
-    const palBackdrop = {
-         raw: undefined,
-        data: new UintBcap(4)
-    };
-
-    const palSprite1 = {
-        raw: undefined,
-       data: new UintBcap(4)
-   };
-
-   const palSprite2 = {
-        raw: undefined,
-       data: new UintBcap(4)
-    };
+    let palBackdrop = {};
+    let palSprite1  = {};
+    let palSprite2  = {};
 
     function isBitSet(data, f) {
-        return data & (1 << f);
+        return (data & (1 << f)) ? true : false;
     }
 
     function parsePalette(palette, data) {
@@ -177,7 +130,6 @@ GameBowie.CstrScreen = function() {
             control.windowTileMap  = false;
             control.lcdEnabled     = false;
 
-            status.mode       = 0;
             status.hblank     = false;
             status.vblank     = false;
             status.oam        = false;
