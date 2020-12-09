@@ -45,6 +45,7 @@
     setZ(!x); \
 
 GameBowie.CstrOpcodeCB = function() {
+    // Exposed class functions/variables
     return {
         opcodeRLC(addr) {
             let f, f2;
@@ -59,11 +60,11 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: RLC(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f2 = !!(f & 0x80);
                     setC(f2);
                     f = f << 1 | f2;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -89,11 +90,11 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: RRC(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f2 = f;
                     setC(f2);
                     f = f >> 1 | f2 << 7;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -119,11 +120,11 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: RL(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f2 = isSetC;
                     setC(!!(f & 0x80));
                     f = (f << 1) | !!(f2);
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -149,12 +150,12 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: RR(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f2 = isSetC;
                     setC(f & 1);
                     f = (f >> 1) | f2 << 7;
                     setZ(!f);
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     break;
 
                 default:
@@ -179,10 +180,10 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: SLA(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     setC(!!(f & 0x80));
                     f = f << 1;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -208,9 +209,9 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: SWAP(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f = ((f & 0xf) << 4) | ((f & 0xf0) >> 4);
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     cpu.r.f = (!f) << 7;
                     break;
 
@@ -233,11 +234,11 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: SRA(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     setC(f & 1);
                     f2 = f & 0x80;
                     f = f >> 1 | f2;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -263,10 +264,10 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: SRL(cpu.r.a); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     setC(f & 1);
                     f = f >> 1;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     setZ(!f);
                     break;
 
@@ -292,7 +293,7 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: f = !(cpu.r.a & bit); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f = !(f & bit);
                     break;
 
@@ -319,9 +320,9 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: cpu.r.a &= (~(bit)); break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f &= (~(bit));
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     break;
 
                 default:
@@ -343,9 +344,9 @@ GameBowie.CstrOpcodeCB = function() {
                 case 7: cpu.r.a |= bit; break;
 
                 case 6: // (HL)
-                    f = mem.readb(fetchHL());
+                    f = mem.read.b(fetchHL());
                     f |= bit;
-                    mem.writeb(fetchHL(), f);
+                    mem.write.b(fetchHL(), f);
                     break;
 
                 default:

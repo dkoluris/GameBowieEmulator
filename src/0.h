@@ -6,6 +6,8 @@
 #define responseSort    responseType
 #define Text            String
 #define toText          toString
+#define UintHcap        Uint16Array
+#define UintBcap        Uint8Array
 
 // Bit Manipulation
 #define SIGN_EXT_8(n) \
@@ -95,6 +97,16 @@
 // Console output
 #define MSG_INFO  'info'
 #define MSG_ERROR 'error'
+
+// A helper for bit manipulation
+function union(size) {
+    const bfr = new ArrayBuffer(size);
+
+    return {
+        uh: new UintHcap(bfr),
+        ub: new UintBcap(bfr),
+    };
+}
 
 // Declare namespace
 const GameBowie = window.GameBowie || {};
