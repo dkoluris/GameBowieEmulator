@@ -6,18 +6,33 @@ GameBowie.CstrMain = function() {
         dropzone: undefined,
     };
 
+    function reset() {
+        div.output.text(' ');
+
+        // Reset all emulator components
+            audio.reset();
+        bootstrap.reset();
+              bus.reset();
+              cpu.reset();
+            input.reset();
+              mem.reset();
+           screen.reset();
+           timers.reset();
+
+        emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.01, a JavaScript based GAMEBOY emulator');
+    }
+
     // Exposed class functions/variables
     return {
         init(screen, output, dropzone) {
             div.output   = output;
             div.dropzone = dropzone;
-
-            emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.01, a JavaScript based GAMEBOY emulator');
         },
 
         openFile(file) {
             let reader = new FileReader();
             reader.onload = function(e) { // Callback
+                reset();
                 mem.parseROM(e.dest.result);
             };
 
