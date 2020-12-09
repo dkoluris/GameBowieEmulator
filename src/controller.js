@@ -2,7 +2,7 @@
 
 #define buttonCheck(kind, shift) \
     if (!(value & kind)) { \
-        value &= 0xf0 | (((btnState >> shift) & 0x0f) ^ 0x0f); \
+        value &= 0xf0 | (((btnState >>> shift) & 0x0f) ^ 0x0f); \
     }
 
 GameBowie.CstrController = function() {

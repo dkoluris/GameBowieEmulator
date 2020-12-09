@@ -31,14 +31,14 @@ GameBowie.CstrScreen = function() {
     let palSprite2  = {};
 
     function isBitSet(data, f) {
-        return (data & (1 << f)) ? true : false;
+        return !!(data & (1 << f));
     }
 
     function parsePalette(palette, data) {
-        palette.data[0] = (data >> 0) & 3;
-        palette.data[1] = (data >> 2) & 3;
-        palette.data[2] = (data >> 4) & 3;
-        palette.data[3] = (data >> 6) & 3;
+        palette.data[0] = (data >>> 0) & 3;
+        palette.data[1] = (data >>> 2) & 3;
+        palette.data[2] = (data >>> 4) & 3;
+        palette.data[3] = (data >>> 6) & 3;
     }
 
     function drawBackdrop(lineY) {
@@ -89,9 +89,9 @@ GameBowie.CstrScreen = function() {
             let attr    = mem.rawAccess(spriteAddr + 3);
             let size    = control.spriteSize ? 16 : 8;
 
-            let flipY = (attr >> 6) & 1;
-            let flipX = (attr >> 5) & 1;
-            let paletteNum = (attr >> 4) & 1;
+            let flipY = (attr >>> 6) & 1;
+            let flipX = (attr >>> 5) & 1;
+            let paletteNum = (attr >>> 4) & 1;
 
             if (lineY >= posY && lineY < posY + size) {
                 let line = flipY ? (-(lineY - posY - size) * 2) : ((lineY - posY) * 2);
@@ -235,21 +235,21 @@ GameBowie.CstrScreen = function() {
         write(addr, data) {
             switch (addr & 0xff) {
                 case 0x40: // Control
-                    control.drawEnabled    = (data >> 0) & 1;
-                    control.spritesEnabled = (data >> 1) & 1;
-                    control.spriteSize     = (data >> 2) & 1;
-                    control.backTileMap    = (data >> 3) & 1;
-                    control.tileData       = (data >> 4) & 1;
-                    control.windowEnabled  = (data >> 5) & 1;
-                    control.windowTileMap  = (data >> 6) & 1;
-                    control.lcdEnabled     = (data >> 7) & 1;
+                    control.drawEnabled    = (data >>> 0) & 1;
+                    control.spritesEnabled = (data >>> 1) & 1;
+                    control.spriteSize     = (data >>> 2) & 1;
+                    control.backTileMap    = (data >>> 3) & 1;
+                    control.tileData       = (data >>> 4) & 1;
+                    control.windowEnabled  = (data >>> 5) & 1;
+                    control.windowTileMap  = (data >>> 6) & 1;
+                    control.lcdEnabled     = (data >>> 7) & 1;
                     return;
 
                 case 0x41: // Status
-                    status.hblank     = (data >> 3) & 1;
-                    status.vblank     = (data >> 4) & 1;
-                    status.oam        = (data >> 5) & 1;
-                    status.coincident = (data >> 6) & 1;
+                    status.hblank     = (data >>> 3) & 1;
+                    status.vblank     = (data >>> 4) & 1;
+                    status.oam        = (data >>> 5) & 1;
+                    status.coincident = (data >>> 6) & 1;
                     return;
 
                 case 0x42: // Scroll Y

@@ -15,10 +15,10 @@
     ((n) << 24 >> 24)
 
 // Sharp SM83
-#define setAF(x) { let tmp = x; cpu.r.f = tmp & 0xff; cpu.r.a = tmp >> 8; }
-#define setBC(x) { let tmp = x; cpu.r.c = tmp & 0xff; cpu.r.b = tmp >> 8; }
-#define setDE(x) { let tmp = x; cpu.r.e = tmp & 0xff; cpu.r.d = tmp >> 8; }
-#define setHL(x) { let tmp = x; cpu.r.l = tmp & 0xff; cpu.r.h = tmp >> 8; }
+#define setAF(x) { let tmp = x; cpu.r.f = tmp & 0xff; cpu.r.a = tmp >>> 8; }
+#define setBC(x) { let tmp = x; cpu.r.c = tmp & 0xff; cpu.r.b = tmp >>> 8; }
+#define setDE(x) { let tmp = x; cpu.r.e = tmp & 0xff; cpu.r.d = tmp >>> 8; }
+#define setHL(x) { let tmp = x; cpu.r.l = tmp & 0xff; cpu.r.h = tmp >>> 8; }
 
 #define fetchAF() ((cpu.r.a << 8) | cpu.r.f)
 #define fetchBC() ((cpu.r.b << 8) | cpu.r.c)

@@ -92,7 +92,7 @@ GameBowie.CstrMem = function() {
         write: {
             h(addr, data) {
                 mem.write.b(addr, data & 0xff);
-                mem.write.b(addr + 1, data >> 8);
+                mem.write.b(addr + 1, data >>> 8);
             },
 
             b(addr, data) {
