@@ -9,6 +9,9 @@ GameBowie.CstrController = function() {
     const INPUT_DIRECTIONAL = 0x10;
     const INPUT_BUTTONS     = 0x20;
 
+    let value;
+    let btnState;
+
     // Exposed class functions/variables
     return {
         reset() {

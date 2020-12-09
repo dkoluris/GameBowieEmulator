@@ -72,12 +72,12 @@
         emulator.init(screen, output, dropzone);
 
         $(document).keydown(function(e) {
-          input.padListener(e.keyCode, true);
+          input.update(e.keyCode, true);
           //console.info('down' + e.keyCode);
         });
 
         $(document).keyup(function(e) {
-          input.padListener(e.keyCode, false);
+          input.update(e.keyCode, false);
           //console.info('up' + e.keyCode);
         });
       }, 1000);

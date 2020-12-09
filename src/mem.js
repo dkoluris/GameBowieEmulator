@@ -34,7 +34,9 @@ GameBowie.CstrMem = function() {
                     bank++;
                 }
 
-                // TODO: memcp(&ram.ptr[0x4000], &rom.ptr[bank * 0x4000], 0x4000);
+                for (let i = 0; i < 0x4000; i++) {
+                    mem.ram.ub[0x4000 + i] = rom[bank * 0x4000];
+                }
                 return false;
 
             case (addr >= 0x4000 && addr <= 0x5fff):
@@ -60,7 +62,7 @@ GameBowie.CstrMem = function() {
 
         parseROM(resp) {
             // Allocate space
-            rom = UintBcap(resp);
+            rom = new UintBcap(resp);
 
             // Parse ROM cart
             let kind = rom[0x147];
@@ -81,9 +83,10 @@ GameBowie.CstrMem = function() {
                     break;
             }
 
-            // Write at most 2 mem banks
-            // TODO: memcp(&ram.ptr[0x0000], &rom.ptr[0x0000], 0x4000);
-            // TODO: memcp(&ram.ptr[0x4000], &rom.ptr[0x4000], 0x4000);
+            // Write at most two mem banks
+            for (let i = 0; i < 2 * 0x4000; i++) {
+                mem.ram.ub[i] = rom[i];
+            }
         },
 
         write: {

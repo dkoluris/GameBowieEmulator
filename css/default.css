@@ -144,7 +144,7 @@ canvas {
     justify-content: center;
     align-items: center;
     flex: 1;
-    background: rgba(0, 0, 0, .1);
+    background: rgba(0, 0, 0, .05);
     text-align: center;
     border: 5px solid rgba(0, 0, 0, .1);
     border-radius: 90px;
@@ -159,7 +159,7 @@ canvas {
 }
 #dropzone > div:nth-child(2) {
     color: #1d2089;
-    font: normal 15px 'GB', sans-serif;
+    font: normal 13px 'GB', sans-serif;
     padding: 0 15px 0 15px;
 }
 #dropzone > img, #dropzone > div {
