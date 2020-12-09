@@ -4,6 +4,7 @@ GameBowie.CstrMem = function() {
     const MBC0 = 0;
     const MBC1 = 1;
 
+    let rom;
     let bankMapper;
     let bankUpperBits, ramSelect;
 
@@ -57,10 +58,9 @@ GameBowie.CstrMem = function() {
             mem.ram.ub.fill(0);
         },
 
-        parseROM(FILE *fp) {
+        parseROM(resp) {
             // Allocate space
-            rom = UintBcap(emulator.fileSize(fp));
-            fread(rom.ptr, rom.size, 1, fp);
+            rom = UintBcap(resp);
 
             // Parse ROM cart
             let kind = rom[0x147];

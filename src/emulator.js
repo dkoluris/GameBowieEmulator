@@ -18,7 +18,7 @@ GameBowie.CstrMain = function() {
         openFile(file) {
             let reader = new FileReader();
             reader.onload = function(e) { // Callback
-                console.info(e.dest.result);
+                mem.parseROM(e.dest.result);
             };
 
             // Read file
