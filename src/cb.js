@@ -361,14 +361,14 @@ GameBowie.CstrOpcodeCB = function() {
 
             if (8 > opcode) {
                 switch (opcode) {
-                    case 0: opcodeRLC (addr); break;
-                    case 1: opcodeRRC (addr); break;
-                    case 2: opcodeRL  (addr); break;
-                    case 3: opcodeRR  (addr); break;
-                    case 4: opcodeSLA (addr); break;
-                    case 5: opcodeSRA (addr); break;
-                    case 6: opcodeSWAP(addr); break;
-                    case 7: opcodeSRL (addr) ;break;
+                    case 0: cb.opcodeRLC (addr); break;
+                    case 1: cb.opcodeRRC (addr); break;
+                    case 2: cb.opcodeRL  (addr); break;
+                    case 3: cb.opcodeRR  (addr); break;
+                    case 4: cb.opcodeSLA (addr); break;
+                    case 5: cb.opcodeSRA (addr); break;
+                    case 6: cb.opcodeSWAP(addr); break;
+                    case 7: cb.opcodeSRL (addr) ;break;
 
                     default:
                         emulator.error('CPU CB 1 Opcode ' + emulator.hex(opcode));
@@ -379,9 +379,9 @@ GameBowie.CstrOpcodeCB = function() {
                 let bit = 1 << (opcode & 7);
 
                 switch ((opcode >> 3) - 1) {
-                    case 0: opcodeBIT(addr, bit); break;
-                    case 1: opcodeRES(addr, bit); break;
-                    case 2: opcodeSET(addr, bit); break;
+                    case 0: cb.opcodeBIT(addr, bit); break;
+                    case 1: cb.opcodeRES(addr, bit); break;
+                    case 2: cb.opcodeSET(addr, bit); break;
 
                     default:
                         emulator.error('CPU CB 2 Opcode ' + emulator.hex((opcode >> 3) - 1));

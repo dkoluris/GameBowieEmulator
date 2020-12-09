@@ -6,8 +6,15 @@ GameBowie.CstrMain = function() {
         dropzone: undefined,
     };
 
+    const palette = [
+        '#e1f7d1',
+        '#87c372',
+        '#337053',
+        '#092021',
+    ];
+
     let suspended;
-    let requestAF;
+    let ctx, requestAF;
 
     function reset() {
         div.output.text(' ');
@@ -28,8 +35,8 @@ GameBowie.CstrMain = function() {
     function run() {
         suspended = false;
 
-        //while (!suspended) {
-        for (let i = 0; i < 1000; i++) {
+        while (!suspended) {
+        //for (let i = 0; i < 1000; i++) {
             // Check for queued interrupts
             bus.interruptsUpdate();
 
@@ -38,15 +45,21 @@ GameBowie.CstrMain = function() {
             timers.step();
         }
 
-        //console.info(emulator.hex(cpu.pc));
         requestAF = requestAnimationFrame(run);
     }
 
     // Exposed class functions/variables
     return {
         init(screen, output, dropzone) {
+            ctx = screen[0].fetchContext('2d');
             div.output   = output;
             div.dropzone = dropzone;
+        },
+
+        pixel(h, v, color) {
+            //console.info('h: ' + h + ' v: ' + v + ' color: ' + color);
+            ctx.fillStyle = palette[color];
+            ctx.fillRect(h, v, 1, 1);
         },
 
         openFile(file) {
@@ -96,6 +109,10 @@ GameBowie.CstrMain = function() {
 
         error(out) {
             throw new Error('/// GameBowie ' + out);
+        },
+
+        setSuspended() {
+            suspended = true;
         }
     };
 };

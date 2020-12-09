@@ -2,6 +2,7 @@
 #define bSize           byteLength
 #define dataBin         'arraybuffer'
 #define dest            target
+#define fetchContext    getContext
 #define readAsBuffer    readAsArrayBuffer
 #define responseSort    responseType
 #define Text            String

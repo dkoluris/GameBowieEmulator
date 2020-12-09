@@ -119,11 +119,11 @@ GameBowie.CstrScreen = function() {
             let line = (posY % 8) * 2;
             let b1 = mem.rawAccess(tileLocation + line);
             let b2 = mem.rawAccess(tileLocation + line + 1);
-            
+
             let maskBit  = 7 - (posX % 8);
             let colorNum = isBitSet(b1, maskBit) | (isBitSet(b2, maskBit) << 1);
-            
-            // TODO: sdl.pixel(lineX, lineY, palBackdrop.data[colorNum]);
+
+            emulator.pixel(lineX, lineY, palBackdrop.data[colorNum]);
         }
     }
 
@@ -155,7 +155,7 @@ GameBowie.CstrScreen = function() {
                         continue;
                     }
 
-                    // TODO: sdl.pixel(posX + (7 - lineX), lineY, paletteNum ? palSprite2.data[colorNum] : palSprite1.data[colorNum]);
+                    emulator.pixel(posX + (7 - lineX), lineY, paletteNum ? palSprite2.data[colorNum] : palSprite1.data[colorNum]);
                 }
             }
         }
@@ -231,7 +231,7 @@ GameBowie.CstrScreen = function() {
                         if (base.line == 144) {
                             base.mode = LCD_MODE_VBLANK;
                             bus.interruptSet(IRQ_VBLANK);
-                            sdl.update();
+                            emulator.setSuspended();
                         } else {
                             base.mode = LCD_MODE_OAM;
                         }

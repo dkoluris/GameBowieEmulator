@@ -37,7 +37,8 @@ GameBowie.CstrSharpSM83 = function() {
                 return 0;
             }
 
-            let opcode = mem.read.b(cpu.pc++);
+            let opcode = mem.read.b(cpu.pc);
+            cpu.pc++;
 
             switch (opcode) {
                 case 0x00:
