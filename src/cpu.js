@@ -69,7 +69,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x07: // RLCA
-                    cpu.opcodeRLC(7);
+                    cb.opcodeRLC(7);
                     setZ(0);
                     break;
 
@@ -107,7 +107,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x0f: // RRCA
-                    cpu.opcodeRRC(7);
+                    cb.opcodeRRC(7);
                     setZ(0);
                     break;
 
@@ -137,7 +137,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x17: // RLA
-                    cpu.opcodeRL(7);
+                    cb.opcodeRL(7);
                     setZ(0);
                     break;
 
@@ -176,7 +176,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x1f: // RR A
-                    cpu.opcodeRR(7);
+                    cb.opcodeRR(7);
                     setZ(0);
                     break;
 
@@ -1116,7 +1116,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xcb: // RLC / RRC / RL / RR / SLA / SRA / SWAP / SRL / BIT / RES / SET
-                    executeCB(mem.read.b(cpu.pc));
+                    cb.executeCB(mem.read.b(cpu.pc));
                     cpu.pc += 1;
                     break;
 

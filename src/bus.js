@@ -1,13 +1,6 @@
 /* Base structure and authentic idea GameBowie (Credits: Dennis Koluris) */
 
 GameBowie.CstrBus = function() {
-    const interrupts = {
-        // Interrupt Master Enable (IME)
-        enabled: undefined,
-           data: undefined,
-           mask: undefined,
-    };
-
     // Definition of interrupts
     const irqs = [{
         code: IRQ_VBLANK,
@@ -27,32 +20,39 @@ GameBowie.CstrBus = function() {
     }];
 
     function interruptDiscard(code) {
-        interrupts.data ^= code;
+        bus.interrupts.data ^= code;
     }
 
     function interruptQueued(code) {
-        return interrupts.data & interrupts.mask & code;
+        return bus.interrupts.data & bus.interrupts.mask & code;
     }
 
     // Exposed class functions/variables
     return {
+        interrupts: {
+            // Interrupt Master Enable (IME)
+            enabled: undefined,
+               data: undefined,
+               mask: undefined,
+        },
+
         reset() {
-            interrupts.enabled = false;
-            interrupts.data = 0xe0;
-            interrupts.mask = 0;
+            bus.interrupts.enabled = false;
+            bus.interrupts.data = 0xe0;
+            bus.interrupts.mask = 0;
         },
 
         interruptSet(code) {
-            interrupts.data |= code;
+            bus.interrupts.data |= code;
         },
 
         interruptsUpdate() {
-            if (interruptQueued(IRQ_ANY) && (interrupts.enabled || cpu.halt)) {
+            if (interruptQueued(IRQ_ANY) && (bus.interrupts.enabled || cpu.halt)) {
                 cpu.halt = false;
 
                 // Interrupt Master Enable (IME)
-                if (interrupts.enabled) {
-                    interrupts.enabled = false;
+                if (bus.interrupts.enabled) {
+                    bus.interrupts.enabled = false;
 
                     // Push PC
                     cpu.sp -= 2;

@@ -37,6 +37,8 @@ GameBowie.CstrMain = function() {
             screen.step();
             timers.step();
         }
+
+        //console.info(emulator.hex(cpu.pc));
         requestAF = requestAnimationFrame(run);
     }
 
