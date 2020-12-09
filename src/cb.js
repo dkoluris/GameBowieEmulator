@@ -68,7 +68,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU RLC Opcode 0x%x", addr);
+                    emulator.error('CPU RLC Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -98,7 +98,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU RRC Opcode 0x%x", addr);
+                    emulator.error('CPU RRC Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -128,7 +128,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU RL Opcode 0x%x", addr);
+                    emulator.error('CPU RL Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -158,7 +158,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU RR Opcode 0x%x", addr);
+                    emulator.error('CPU RR Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -187,7 +187,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU SLA Opcode 0x%x", addr);
+                    emulator.error('CPU SLA Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -215,7 +215,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU SWAP Opcode 0x%x", addr);
+                    emulator.error('CPU SWAP Opcode ' + emulator.hex(addr));
                     break;
             }
         },
@@ -242,7 +242,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU SRA Opcode 0x%x", addr);
+                    emulator.error('CPU SRA Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -271,7 +271,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU SRL Opcode 0x%x", addr);
+                    emulator.error('CPU SRL Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -297,7 +297,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU BIT Opcode 0x%x", addr);
+                    emulator.error('CPU BIT Opcode ' + emulator.hex(addr));
                     break;
             }
 
@@ -325,7 +325,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU RES Opcode 0x%x", addr);
+                    emulator.error('CPU RES Opcode ' + emulator.hex(addr));
                     break;
             }
         },
@@ -349,7 +349,7 @@ GameBowie.CstrOpcodeCB = function() {
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU SET Opcode 0x%x", addr);
+                    emulator.error('CPU SET Opcode ' + emulator.hex(addr));
                     break;
             }
         },
@@ -370,7 +370,7 @@ GameBowie.CstrOpcodeCB = function() {
                     case 7: opcodeSRL (addr) ;break;
 
                     default:
-                        printx("/// Gemuboi CPU CB 1 Opcode 0x%x", opcode);
+                        emulator.error('CPU CB 1 Opcode ' + emulator.hex(opcode));
                         break;
                 }
             }
@@ -383,7 +383,7 @@ GameBowie.CstrOpcodeCB = function() {
                     case 2: opcodeSET(addr, bit); break;
 
                     default:
-                        printx("/// Gemuboi CPU CB 2 Opcode 0x%x", ((opcode >> 3) - 1));
+                        emulator.error('CPU CB 2 Opcode ' + emulator.hex((opcode >> 3) - 1));
                         break;
                 }
             }
