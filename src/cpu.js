@@ -1,6 +1,9 @@
-/* Base structure and authentic idea GameBowie (Credits: Dennis Koluris) */
+/* Base structure taken from GAMEBOY open source emulator, and improved upon (Credits: Peter Johnson (zid)) */
 
 GameBowie.CstrSharpSM83 = function() {
+    let halt;
+    let tmp8, tmp8_2, tmp16, tmp32;
+
     return {
         pc: undefined,
         sp: undefined,
@@ -17,12 +20,10 @@ GameBowie.CstrSharpSM83 = function() {
             l: 0,
         },
 
-        halt: false,
-
         reset() {
-            cpu.pc   = 0x0;
-            cpu.sp   = 0xfffe;
-            cpu.halt = false;
+            cpu.pc = 0x0;
+            cpu.sp = 0xfffe;
+            halt   = false;
 
             setAF(0x01b0);
             setBC(0x0013);
@@ -35,15 +36,15 @@ GameBowie.CstrSharpSM83 = function() {
                 return 0;
             }
 
-            let opcode = mem.readb(pc++);
+            let opcode = mem.readb(cpu.pc++);
 
             switch (opcode) {
                 case 0x00:
                     break;
 
                 case 0x01: // LD BC, imm16
-                    setBC(mem.readh(pc));
-                    pc += 2;
+                    setBC(mem.readh(cpu.pc));
+                    cpu.pc += 2;
                     break;
 
                 case 0x02: // LD (BC), A
@@ -67,13 +68,13 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x07: // RLCA
-                    opcodeRLC(7);
+                    cpu.opcodeRLC(7);
                     setZ(0);
                     break;
 
                 case 0x08: // LD (imm16), SP
-                    mem.writeh(mem.readh(pc), sp);
-                    pc += 2;
+                    mem.writeh(mem.readh(cpu.pc), cpu.sp);
+                    cpu.pc += 2;
                     break;
 
                 case 0x09: // ADD HL, BC
@@ -105,13 +106,13 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x0f: // RRCA
-                    opcodeRRC(7);
+                    cpu.opcodeRRC(7);
                     setZ(0);
                     break;
 
                 case 0x11: // LD DE, imm16
-                    setDE(mem.readh(pc));
-                    pc += 2;
+                    setDE(mem.readh(cpu.pc));
+                    cpu.pc += 2;
                     break;
 
                 case 0x12: // LD (DE), A
@@ -135,12 +136,12 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x17: // RLA
-                    opcodeRL(7);
+                    cpu.opcodeRL(7);
                     setZ(0);
                     break;
 
                 case 0x18: // JR rel8
-                    pc += (sb)mem.readb(pc) + 1;
+                    cpu.pc += SIGN_EXT_8(mem.readb(cpu.pc)) + 1;
                     break;
 
                 case 0x19: // ADD HL, DE
@@ -174,22 +175,22 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x1f: // RR A
-                    opcodeRR(7);
+                    cpu.opcodeRR(7);
                     setZ(0);
                     break;
 
                 case 0x20: // JR NZ, rel8
                     if (isSetZ == 0) {
-                        pc += (sb)mem.readb(pc) + 1;
+                        cpu.pc += SIGN_EXT_8(mem.readb(cpu.pc)) + 1;
                     }
                     else {
-                        pc += 1;
+                        cpu.pc += 1;
                     }
                     break;
 
                 case 0x21: // LD HL, imm16
-                    setHL(mem.readh(pc));
-                    pc += 2;
+                    setHL(mem.readh(cpu.pc));
+                    cpu.pc += 2;
                     break;
 
                 case 0x22: // LDI (HL), A
@@ -246,10 +247,10 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0x28: // JR Z, rel8
                     if (isSetZ == 1) {
-                        pc += (sb)mem.readb(pc) + 1;
+                        cpu.pc += SIGN_EXT_8(mem.readb(cpu.pc)) + 1;
                     }
                     else {
-                        pc += 1;
+                        cpu.pc += 1;
                     }
                     break;
 
@@ -290,16 +291,16 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0x30: // JR NC, rel8
                     if (isSetC == 0) {
-                        pc += (sb)mem.readb(pc) + 1;
+                        cpu.pc += SIGN_EXT_8(mem.readb(cpu.pc)) + 1;
                     }
                     else {
-                        pc += 1;
+                        cpu.pc += 1;
                     }
                     break;
 
                 case 0x31: // LD SP, imm16
-                    sp = mem.readh(pc);
-                    pc += 2;
+                    cpu.sp = mem.readh(cpu.pc);
+                    cpu.pc += 2;
                     break;
 
                 case 0x32: // LDD (HL), A
@@ -308,7 +309,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x33: // INC SP
-                    sp++;
+                    cpu.sp++;
                     break;
 
                 case 0x34: // INC (HL)
@@ -328,8 +329,8 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x36: // LD (HL), imm8
-                    mem.writeb(fetchHL(), mem.readb(pc));
-                    pc += 1;
+                    mem.writeb(fetchHL(), mem.readb(cpu.pc));
+                    cpu.pc += 1;
                     break;
 
                 case 0x37: // SCF
@@ -340,15 +341,15 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0x38: // JR C, rel8
                     if (isSetC) {
-                        pc += (sb)mem.readb(pc) + 1;
+                        cpu.pc += SIGN_EXT_8(mem.readb(cpu.pc)) + 1;
                     }
                     else {
-                        pc += 1;
+                        cpu.pc += 1;
                     }
                     break;
 
                 case 0x39: // ADD HL, SP
-                    tmp32 = fetchHL() + sp;
+                    tmp32 = fetchHL() + cpu.sp;
                     setH((tmp32 & 0x7ff) < (fetchHL() & 0x7ff));
                     setC(tmp32 > 0xffff);
                     setN(0);
@@ -361,7 +362,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x3b: // DEC SP
-                    sp--;
+                    cpu.sp--;
                     break;
 
                 case 0x3c: // INC A
@@ -1033,241 +1034,241 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0xc0: // RET NZ
                     if (isSetZ == 0) {
-                        pc = mem.readh(sp);
-                        sp += 2;
+                        cpu.pc = mem.readh(cpu.sp);
+                        cpu.sp += 2;
                     }
                     else {
                     }
                     break;
 
                 case 0xc1: // POP BC
-                    setBC(mem.readh(sp));
-                    sp += 2;
+                    setBC(mem.readh(cpu.sp));
+                    cpu.sp += 2;
                     break;
 
                 case 0xc2: // JP NZ, mem16
                     if (isSetZ == 0) {
-                        pc = mem.readh(pc);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xc3: // JP imm16
-                    pc = mem.readh(pc);
+                    cpu.pc = mem.readh(cpu.pc);
                     break;
 
                 case 0xc4: // CALL NZ, imm16
                     if (isSetZ == 0) {
-                        sp -= 2;
-                        mem.writeh(sp, pc + 2);
-                        pc = mem.readh(pc);
+                        cpu.sp -= 2;
+                        mem.writeh(cpu.sp, cpu.pc + 2);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xc5: // PUSH BC
-                    sp -= 2;
-                    mem.writeh(sp, fetchBC());
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, fetchBC());
                     break;
 
                 case 0xc6: // ADD A, imm8
-                    tmp8 = mem.readb(pc);
+                    tmp8 = mem.readb(cpu.pc);
                     setC((cpu.r.a + tmp8) >= 0x100);
                     setH(((cpu.r.a + tmp8) & 0xf) < (cpu.r.a & 0xf));
                     cpu.r.a += tmp8;
                     setN(0);
                     setZ(!cpu.r.a);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xc7: // RST 00
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x00;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x00;
                     break;
 
                 case 0xc8: // RET Z
                     if (isSetZ == 1) {
-                        pc = mem.readh(sp);
-                        sp += 2;
+                        cpu.pc = mem.readh(cpu.sp);
+                        cpu.sp += 2;
                     }
                     else {
                     }
                     break;
 
                 case 0xc9: // RET
-                    pc = mem.readh(sp);
-                    sp += 2;
+                    cpu.pc = mem.readh(cpu.sp);
+                    cpu.sp += 2;
                     break;
 
                 case 0xca: // JP Z, mem16
                     if (isSetZ == 1) {
-                        pc = mem.readh(pc);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xcb: // RLC / RRC / RL / RR / SLA / SRA / SWAP / SRL / BIT / RES / SET
-                    executeCB(mem.readb(pc));
-                    pc += 1;
+                    executeCB(mem.readb(cpu.pc));
+                    cpu.pc += 1;
                     break;
 
                 case 0xcc: // CALL Z, imm16
                     if (isSetZ == 1) {
-                        sp -= 2;
-                        mem.writeh(sp, pc + 2);
-                        pc = mem.readh(pc);
+                        cpu.sp -= 2;
+                        mem.writeh(cpu.sp, cpu.pc + 2);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xcd: // CALL imm16
-                    sp -= 2;
-                    mem.writeh(sp, pc + 2);
-                    pc = mem.readh(pc);
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc + 2);
+                    cpu.pc = mem.readh(cpu.pc);
                     break;
 
                 case 0xce: // ADC a, imm8
-                    tmp8 = mem.readb(pc);
+                    tmp8 = mem.readb(cpu.pc);
                     tmp32 = cpu.r.a + tmp8 + isSetC >= 0x100;
                     setN(0);
                     setH(((cpu.r.a & 0xf) + (tmp8 & 0xf) + isSetC) >= 0x10);
                     cpu.r.a = cpu.r.a + tmp8 + isSetC;
                     setC(tmp32);
                     setZ(!cpu.r.a);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xcf: // RST 08
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x08;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x08;
                     break;
 
                 case 0xd0: // RET NC
                     if (isSetC == 0) {
-                        pc = mem.readh(sp);
-                        sp += 2;
+                        cpu.pc = mem.readh(cpu.sp);
+                        cpu.sp += 2;
                     }
                     else {
                     }
                     break;
 
                 case 0xd1: // POP DE
-                    setDE(mem.readh(sp));
-                    sp += 2;
+                    setDE(mem.readh(cpu.sp));
+                    cpu.sp += 2;
                     break;
 
                 case 0xd2: // JP NC, mem16
                     if (isSetC == 0) {
-                        pc = mem.readh(pc);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xd4: // CALL NC, mem16
                     if (isSetC == 0) {
-                        tmp32 = mem.readh(pc);
-                        sp -= 2;
-                        mem.writeh(sp, pc + 2);
-                        pc = tmp32;
+                        tmp32 = mem.readh(cpu.pc);
+                        cpu.sp -= 2;
+                        mem.writeh(cpu.sp, cpu.pc + 2);
+                        cpu.pc = tmp32;
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xd5: // PUSH DE
-                    sp -= 2;
-                    mem.writeh(sp, fetchDE());
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, fetchDE());
                     break;
 
                 case 0xd6: // SUB A, imm8
-                    tmp8 = mem.readb(pc);
+                    tmp8 = mem.readb(cpu.pc);
                     setC((cpu.r.a - tmp8) < 0);
                     setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
                     cpu.r.a -= tmp8;
                     setN(1);
                     setZ(!cpu.r.a);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xd7: // RST 10
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x10;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x10;
                     break;
 
                 case 0xd8: // RET C
                     if (isSetC == 1) {
-                        pc = mem.readh(sp);
-                        sp += 2;
+                        cpu.pc = mem.readh(cpu.sp);
+                        cpu.sp += 2;
                     }
                     else {
                     }
                     break;
 
                 case 0xd9: // RETI
-                    pc = mem.readh(sp);
-                    sp += 2;
+                    cpu.pc = mem.readh(cpu.sp);
+                    cpu.sp += 2;
                     bus.interrupts.enabled = true;
                     break;
 
                 case 0xda: // JP C, mem16
                     if (isSetC == 1) {
-                        pc = mem.readh(pc);
+                        cpu.pc = mem.readh(cpu.pc);
                     }
                     else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xdc: // CALL C, mem16
                     if (isSetC == 1) {
-                        tmp32 = mem.readh(pc);
-                        sp -= 2;
-                        mem.writeh(sp, pc + 2);
-                        pc = tmp32;
+                        tmp32 = mem.readh(cpu.pc);
+                        cpu.sp -= 2;
+                        mem.writeh(cpu.sp, cpu.pc + 2);
+                        cpu.pc = tmp32;
                     } else {
-                        pc += 2;
+                        cpu.pc += 2;
                     }
                     break;
 
                 case 0xde: // SBC A, imm8
-                    tmp8 = mem.readb(pc);
+                    tmp8 = mem.readb(cpu.pc);
                     tmp8_2 = isSetC;
                     setH(((tmp8 & 0xf) + isSetC) > (cpu.r.a & 0xf));
                     setC(tmp8 + isSetC > cpu.r.a);
                     setN(1);
                     cpu.r.a -= (tmp8_2 + tmp8);
                     setZ(!cpu.r.a);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xdf: // RST 18
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x18;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x18;
                     break;
 
                 case 0xe0: // LD (FF00 + imm8), A
-                    mem.writeb(0xff00 + mem.readb(pc), cpu.r.a);
-                    pc += 1;
+                    mem.writeb(0xff00 + mem.readb(cpu.pc), cpu.r.a);
+                    cpu.pc += 1;
                     break;
 
                 case 0xe1: // POP HL
-                    setHL(mem.readh(sp));
-                    sp += 2;
+                    setHL(mem.readh(cpu.sp));
+                    cpu.sp += 2;
                     break;
 
                 case 0xe2: // LD (FF00 + C), A
@@ -1275,64 +1276,64 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xe5: // PUSH HL
-                    sp -= 2;
-                    mem.writeh(sp, fetchHL());
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, fetchHL());
                     break;
 
                 case 0xe6: // AND A, imm8
                     setN(0);
                     setH(1);
                     setC(0);
-                    cpu.r.a = mem.readb(pc) & cpu.r.a;
+                    cpu.r.a = mem.readb(cpu.pc) & cpu.r.a;
                     setZ(!cpu.r.a);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xe7: // RST 20
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x20;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x20;
                     break;
 
                 case 0xe8: // ADD SP, imm8
-                    tmp32 = mem.readb(pc);
-                    pc += 1;
+                    tmp32 = mem.readb(cpu.pc);
+                    cpu.pc += 1;
                     setZ(0);
                     setN(0);
-                    setC(((sp + tmp32) & 0xff) < (sp & 0xff));
-                    setH(((sp + tmp32) & 0xf) < (sp & 0xf));
-                    sp += (sb)tmp32;
+                    setC(((cpu.sp + tmp32) & 0xff) < (cpu.sp & 0xff));
+                    setH(((cpu.sp + tmp32) & 0xf) < (cpu.sp & 0xf));
+                    cpu.sp += SIGN_EXT_8(tmp32);
                     break;
 
                 case 0xe9: // JP HL
-                    pc = fetchHL();
+                    cpu.pc = fetchHL();
                     break;
 
                 case 0xea: // LD (mem16), A
-                    mem.writeb(mem.readh(pc), cpu.r.a);
-                    pc += 2;
+                    mem.writeb(mem.readh(cpu.pc), cpu.r.a);
+                    cpu.pc += 2;
                     break;
 
                 case 0xee: // XOR A, imm8
-                    cpu.r.a ^= mem.readb(pc);
+                    cpu.r.a ^= mem.readb(cpu.pc);
                     cpu.r.f = (!cpu.r.a) << 7;
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xef: // RST 28
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x28;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x28;
                     break;
 
                 case 0xf0: // LD A, (FF00 + imm8)
-                    cpu.r.a = mem.readb(0xff00 + mem.readb(pc));
-                    pc += 1;
+                    cpu.r.a = mem.readb(0xff00 + mem.readb(cpu.pc));
+                    cpu.pc += 1;
                     break;
 
                 case 0xf1: // POP AF
-                    setAF(mem.readh(sp) & 0xfff0);
-                    sp += 2;
+                    setAF(mem.readh(cpu.sp) & 0xfff0);
+                    cpu.sp += 2;
                     break;
 
                 case 0xf2: // LD A, (FF00 + c)
@@ -1344,39 +1345,39 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xf5: // PUSH AF
-                    sp -= 2;
-                    mem.writeh(sp, fetchAF());
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, fetchAF());
                     break;
 
                 case 0xf6: // OR A, imm8
-                    cpu.r.a |= mem.readb(pc);
+                    cpu.r.a |= mem.readb(cpu.pc);
                     cpu.r.f = (!cpu.r.a) << 7;
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xf7: // RST 30
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x30;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x30;
                     break;
 
                 case 0xf8: // LD HL, SP + imm8
-                    tmp32 = mem.readb(pc);
+                    tmp32 = mem.readb(cpu.pc);
                     setN(0);
                     setZ(0);
-                    setC(((sp + tmp32) & 0xff) < (sp & 0xff));
-                    setH(((sp + tmp32) & 0xf) < (sp & 0xf));
-                    setHL(sp + (sb)tmp32);
-                    pc += 1;
+                    setC(((cpu.sp + tmp32) & 0xff) < (cpu.sp & 0xff));
+                    setH(((cpu.sp + tmp32) & 0xf) < (cpu.sp & 0xf));
+                    setHL(cpu.sp + SIGN_EXT_8(tmp32));
+                    cpu.pc += 1;
                     break;
 
                 case 0xf9: // LD SP, HL
-                    sp = fetchHL();
+                    cpu.sp = fetchHL();
                     break;
 
                 case 0xfa: // LD A, (mem16)
-                    cpu.r.a = mem.readb(mem.readh(pc));
-                    pc += 2;
+                    cpu.r.a = mem.readb(mem.readh(cpu.pc));
+                    cpu.pc += 2;
                     break;
 
                 case 0xfb: // EI
@@ -1384,26 +1385,26 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xfe: // CP A, imm8
-                    tmp8 = mem.readb(pc);
+                    tmp8 = mem.readb(cpu.pc);
                     setZ(cpu.r.a == tmp8);
                     setN(1);
                     setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
                     setC(cpu.r.a < tmp8);
-                    pc += 1;
+                    cpu.pc += 1;
                     break;
 
                 case 0xff: // RST 38
-                    sp -= 2;
-                    mem.writeh(sp, pc);
-                    pc = 0x38;
+                    cpu.sp -= 2;
+                    mem.writeh(cpu.sp, cpu.pc);
+                    cpu.pc = 0x38;
                     break;
 
                 default:
-                    printx("/// Gemuboi CPU Opcode 0x%x", opcode);
+                    emulator.error('CPU Opcode ' + emulator.hex(opcode));
                     break;
             }
 
-            return frames[opcode];
+            return 0; //frames[opcode];
         }
     };
 };
