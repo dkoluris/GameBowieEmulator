@@ -50,8 +50,8 @@
     x = z; \
 
 #define LDRIMM8(x) \
-    x = mem.readb(pc); \
-    pc += 1; \
+    x = mem.read.b(cpu.pc); \
+    cpu.pc += 1; \
 
 #define ANDR(x) \
     cpu.r.a &= x; \

@@ -6,6 +6,9 @@ GameBowie.CstrMain = function() {
         dropzone: undefined,
     };
 
+    let suspended;
+    let requestAF;
+
     function reset() {
         div.output.text(' ');
 
@@ -22,6 +25,21 @@ GameBowie.CstrMain = function() {
         emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.01, a JavaScript based GAMEBOY emulator');
     }
 
+    function run() {
+        suspended = false;
+
+        //while (!suspended) {
+        for (let i = 0; i < 1000; i++) {
+            // Check for queued interrupts
+            bus.interruptsUpdate();
+
+               cpu.step();
+            screen.step();
+            timers.step();
+        }
+        requestAF = requestAnimationFrame(run);
+    }
+
     // Exposed class functions/variables
     return {
         init(screen, output, dropzone) {
@@ -34,6 +52,7 @@ GameBowie.CstrMain = function() {
             reader.onload = function(e) { // Callback
                 reset();
                 mem.parseROM(e.dest.result);
+                run();
             };
 
             // Read file

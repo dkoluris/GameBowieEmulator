@@ -3,6 +3,9 @@
 GameBowie.CstrScreen = function() {
     return {
         reset() {
+        },
+
+        step() {
         }
     };
 };
