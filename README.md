@@ -4,7 +4,7 @@
 
 **GameBowie is a simple GB classic emulator written in JavaScript**. It is coded in **ES6 JavaScript** and `.h` header files for organizing macros. It can run some commercial roms, but it needs quite some work. Use directional buttons and 1 (Start), 2 (Select), Z (B) and A (A).
 
-https://naden.co/emu
+Live build: https://naden.co/emu
 
 <h2>Showcase</h2>
 
