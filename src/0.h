@@ -14,26 +14,35 @@
 #define SIGN_EXT_8(n) \
     ((n) << 24 >> 24)
 
+#define ra cpu.r[0]
+#define rb cpu.r[1]
+#define rc cpu.r[2]
+#define rd cpu.r[3]
+#define re cpu.r[4]
+#define rf cpu.r[5]
+#define rh cpu.r[6]
+#define rl cpu.r[7]
+
 // Sharp SM83
-#define setAF(x) { let tmp = x; cpu.r.f = tmp & 0xff; cpu.r.a = tmp >>> 8; }
-#define setBC(x) { let tmp = x; cpu.r.c = tmp & 0xff; cpu.r.b = tmp >>> 8; }
-#define setDE(x) { let tmp = x; cpu.r.e = tmp & 0xff; cpu.r.d = tmp >>> 8; }
-#define setHL(x) { let tmp = x; cpu.r.l = tmp & 0xff; cpu.r.h = tmp >>> 8; }
+#define setAF(x) { let tmp = x; rf = tmp & 0xff; ra = tmp >>> 8; }
+#define setBC(x) { let tmp = x; rc = tmp & 0xff; rb = tmp >>> 8; }
+#define setDE(x) { let tmp = x; re = tmp & 0xff; rd = tmp >>> 8; }
+#define setHL(x) { let tmp = x; rl = tmp & 0xff; rh = tmp >>> 8; }
 
-#define fetchAF() ((cpu.r.a << 8) | cpu.r.f)
-#define fetchBC() ((cpu.r.b << 8) | cpu.r.c)
-#define fetchDE() ((cpu.r.d << 8) | cpu.r.e)
-#define fetchHL() ((cpu.r.h << 8) | cpu.r.l)
+#define fetchAF() ((ra << 8) | rf)
+#define fetchBC() ((rb << 8) | rc)
+#define fetchDE() ((rd << 8) | re)
+#define fetchHL() ((rh << 8) | rl)
 
-#define setZ(x) cpu.r.f = (cpu.r.f & 0x7f) | ((x) << 7)
-#define setN(x) cpu.r.f = (cpu.r.f & 0xbf) | ((x) << 6)
-#define setH(x) cpu.r.f = (cpu.r.f & 0xdf) | ((x) << 5)
-#define setC(x) cpu.r.f = (cpu.r.f & 0xef) | ((x) << 4)
+#define setZ(x) rf = (rf & 0x7f) | ((x) << 7)
+#define setN(x) rf = (rf & 0xbf) | ((x) << 6)
+#define setH(x) rf = (rf & 0xdf) | ((x) << 5)
+#define setC(x) rf = (rf & 0xef) | ((x) << 4)
 
-#define isSetZ !!(cpu.r.f & 0x80)
-#define isSetN !!(cpu.r.f & 0x40)
-#define isSetH !!(cpu.r.f & 0x20)
-#define isSetC !!(cpu.r.f & 0x10)
+#define isSetZ !!(rf & 0x80)
+#define isSetN !!(rf & 0x40)
+#define isSetH !!(rf & 0x20)
+#define isSetC !!(rf & 0x10)
 
 #define INC(x) \
     x++; \
@@ -55,37 +64,37 @@
     cpu.pc += 1; \
 
 #define ANDR(x) \
-    cpu.r.a &= x; \
-    setZ(!cpu.r.a); \
+    ra &= x; \
+    setZ(!ra); \
     setH(1); \
     setN(0); \
     setC(0); \
 
 #define XORR(x) \
-    cpu.r.a ^= x; \
-    setZ(!cpu.r.a); \
+    ra ^= x; \
+    setZ(!ra); \
     setH(0); \
     setN(0); \
     setC(0); \
 
 #define ORR(x) \
-    cpu.r.a |= x; \
-    setZ(!cpu.r.a); \
+    ra |= x; \
+    setZ(!ra); \
     setH(0); \
     setN(0); \
     setC(0); \
 
 #define CPR(x) \
-    setC((cpu.r.a - x) < 0); \
-    setH(((cpu.r.a - x) & 0xf) > (cpu.r.a & 0xf)); \
-    setZ(cpu.r.a == x); \
+    setC((ra - x) < 0); \
+    setH(((ra - x) & 0xf) > (ra & 0xf)); \
+    setZ(ra == x); \
     setN(1); \
 
 #define SUBR(x) \
-    setC((cpu.r.a - x) < 0); \
-    setH(((cpu.r.a - x) & 0xf) > (cpu.r.a & 0xf)); \
-    cpu.r.a -= x; \
-    setZ(!cpu.r.a); \
+    setC((ra - x) < 0); \
+    setH(((ra - x) & 0xf) > (ra & 0xf)); \
+    ra -= x; \
+    setZ(!ra); \
     setN(1); \
 
 // Screen

@@ -57,8 +57,8 @@ GameBowie.CstrScreen = function() {
                 posX = lineX + (scroll.h - 0);
             }
 
-            let tileRow      = (posY / 8) * 32;
-            let tileColumn   = (posX / 8);
+            let tileRow      = ((posY / 8) >>> 0) * 32;
+            let tileColumn   = ((posX / 8) >>> 0);
             let tileNum      = mem.rawAccess(tileMap + tileRow + tileColumn);
             let tileLocation = 0;
 

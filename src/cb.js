@@ -31,7 +31,7 @@
 
 #define SWAP(x) \
     x = ((x & 0xf) << 4) | ((x & 0xf0) >>> 4); \
-    cpu.r.f = (!x) << 7; \
+    rf = (!x) << 7; \
 
 #define SRA(x) \
     setC(x & 1); \
@@ -51,13 +51,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f, f2;
 
             switch (addr) {
-                case 0: RLC(cpu.r.b); break;
-                case 1: RLC(cpu.r.c); break;
-                case 2: RLC(cpu.r.d); break;
-                case 3: RLC(cpu.r.e); break;
-                case 4: RLC(cpu.r.h); break;
-                case 5: RLC(cpu.r.l); break;
-                case 7: RLC(cpu.r.a); break;
+                case 0: RLC(rb); break;
+                case 1: RLC(rc); break;
+                case 2: RLC(rd); break;
+                case 3: RLC(re); break;
+                case 4: RLC(rh); break;
+                case 5: RLC(rl); break;
+                case 7: RLC(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -81,13 +81,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f, f2;
 
             switch (addr) {
-                case 0: RRC(cpu.r.b); break;
-                case 1: RRC(cpu.r.c); break;
-                case 2: RRC(cpu.r.d); break;
-                case 3: RRC(cpu.r.e); break;
-                case 4: RRC(cpu.r.h); break;
-                case 5: RRC(cpu.r.l); break;
-                case 7: RRC(cpu.r.a); break;
+                case 0: RRC(rb); break;
+                case 1: RRC(rc); break;
+                case 2: RRC(rd); break;
+                case 3: RRC(re); break;
+                case 4: RRC(rh); break;
+                case 5: RRC(rl); break;
+                case 7: RRC(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -111,13 +111,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f, f2;
             
             switch (addr) {
-                case 0: RL(cpu.r.b); break;
-                case 1: RL(cpu.r.c); break;
-                case 2: RL(cpu.r.d); break;
-                case 3: RL(cpu.r.e); break;
-                case 4: RL(cpu.r.h); break;
-                case 5: RL(cpu.r.l); break;
-                case 7: RL(cpu.r.a); break;
+                case 0: RL(rb); break;
+                case 1: RL(rc); break;
+                case 2: RL(rd); break;
+                case 3: RL(re); break;
+                case 4: RL(rh); break;
+                case 5: RL(rl); break;
+                case 7: RL(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -141,13 +141,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f, f2;
             
             switch (addr) {
-                case 0: RR(cpu.r.b); break;
-                case 1: RR(cpu.r.c); break;
-                case 2: RR(cpu.r.d); break;
-                case 3: RR(cpu.r.e); break;
-                case 4: RR(cpu.r.h); break;
-                case 5: RR(cpu.r.l); break;
-                case 7: RR(cpu.r.a); break;
+                case 0: RR(rb); break;
+                case 1: RR(rc); break;
+                case 2: RR(rd); break;
+                case 3: RR(re); break;
+                case 4: RR(rh); break;
+                case 5: RR(rl); break;
+                case 7: RR(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -171,13 +171,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: SLA(cpu.r.b); break;
-                case 1: SLA(cpu.r.c); break;
-                case 2: SLA(cpu.r.d); break;
-                case 3: SLA(cpu.r.e); break;
-                case 4: SLA(cpu.r.h); break;
-                case 5: SLA(cpu.r.l); break;
-                case 7: SLA(cpu.r.a); break;
+                case 0: SLA(rb); break;
+                case 1: SLA(rc); break;
+                case 2: SLA(rd); break;
+                case 3: SLA(re); break;
+                case 4: SLA(rh); break;
+                case 5: SLA(rl); break;
+                case 7: SLA(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -200,19 +200,19 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: SWAP(cpu.r.b); break;
-                case 1: SWAP(cpu.r.c); break;
-                case 2: SWAP(cpu.r.d); break;
-                case 3: SWAP(cpu.r.e); break;
-                case 4: SWAP(cpu.r.h); break;
-                case 5: SWAP(cpu.r.l); break;
-                case 7: SWAP(cpu.r.a); break;
+                case 0: SWAP(rb); break;
+                case 1: SWAP(rc); break;
+                case 2: SWAP(rd); break;
+                case 3: SWAP(re); break;
+                case 4: SWAP(rh); break;
+                case 5: SWAP(rl); break;
+                case 7: SWAP(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
                     f = ((f & 0xf) << 4) | ((f & 0xf0) >>> 4);
                     mem.write.b(fetchHL(), f);
-                    cpu.r.f = (!f) << 7;
+                    rf = (!f) << 7;
                     break;
 
                 default:
@@ -225,13 +225,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f, f2;
 
             switch (addr) {
-                case 0: SRA(cpu.r.b); break;
-                case 1: SRA(cpu.r.c); break;
-                case 2: SRA(cpu.r.d); break;
-                case 3: SRA(cpu.r.e); break;
-                case 4: SRA(cpu.r.h); break;
-                case 5: SRA(cpu.r.l); break;
-                case 7: SRA(cpu.r.a); break;
+                case 0: SRA(rb); break;
+                case 1: SRA(rc); break;
+                case 2: SRA(rd); break;
+                case 3: SRA(re); break;
+                case 4: SRA(rh); break;
+                case 5: SRA(rl); break;
+                case 7: SRA(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -255,13 +255,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: SRL(cpu.r.b); break;
-                case 1: SRL(cpu.r.c); break;
-                case 2: SRL(cpu.r.d); break;
-                case 3: SRL(cpu.r.e); break;
-                case 4: SRL(cpu.r.h); break;
-                case 5: SRL(cpu.r.l); break;
-                case 7: SRL(cpu.r.a); break;
+                case 0: SRL(rb); break;
+                case 1: SRL(rc); break;
+                case 2: SRL(rd); break;
+                case 3: SRL(re); break;
+                case 4: SRL(rh); break;
+                case 5: SRL(rl); break;
+                case 7: SRL(ra); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -284,13 +284,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: f = !(cpu.r.b & bit); break;
-                case 1: f = !(cpu.r.c & bit); break;
-                case 2: f = !(cpu.r.d & bit); break;
-                case 3: f = !(cpu.r.e & bit); break;
-                case 4: f = !(cpu.r.h & bit); break;
-                case 5: f = !(cpu.r.l & bit); break;
-                case 7: f = !(cpu.r.a & bit); break;
+                case 0: f = !(rb & bit); break;
+                case 1: f = !(rc & bit); break;
+                case 2: f = !(rd & bit); break;
+                case 3: f = !(re & bit); break;
+                case 4: f = !(rh & bit); break;
+                case 5: f = !(rl & bit); break;
+                case 7: f = !(ra & bit); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -311,13 +311,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: cpu.r.b &= (~(bit)); break;
-                case 1: cpu.r.c &= (~(bit)); break;
-                case 2: cpu.r.d &= (~(bit)); break;
-                case 3: cpu.r.e &= (~(bit)); break;
-                case 4: cpu.r.h &= (~(bit)); break;
-                case 5: cpu.r.l &= (~(bit)); break;
-                case 7: cpu.r.a &= (~(bit)); break;
+                case 0: rb &= (~(bit)); break;
+                case 1: rc &= (~(bit)); break;
+                case 2: rd &= (~(bit)); break;
+                case 3: re &= (~(bit)); break;
+                case 4: rh &= (~(bit)); break;
+                case 5: rl &= (~(bit)); break;
+                case 7: ra &= (~(bit)); break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());
@@ -335,13 +335,13 @@ GameBowie.CstrOpcodeCB = function() {
             let f;
 
             switch (addr) {
-                case 0: cpu.r.b |= bit; break;
-                case 1: cpu.r.c |= bit; break;
-                case 2: cpu.r.d |= bit; break;
-                case 3: cpu.r.e |= bit; break;
-                case 4: cpu.r.h |= bit; break;
-                case 5: cpu.r.l |= bit; break;
-                case 7: cpu.r.a |= bit; break;
+                case 0: rb |= bit; break;
+                case 1: rc |= bit; break;
+                case 2: rd |= bit; break;
+                case 3: re |= bit; break;
+                case 4: rh |= bit; break;
+                case 5: rl |= bit; break;
+                case 7: ra |= bit; break;
 
                 case 6: // (HL)
                     f = mem.read.b(fetchHL());

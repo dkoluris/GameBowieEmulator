@@ -10,16 +10,7 @@ GameBowie.CstrSharpSM83 = function() {
         halt: undefined,
 
         // REGS
-        r: {
-            a: 0,
-            b: 0,
-            c: 0,
-            d: 0,
-            e: 0,
-            f: 0,
-            h: 0,
-            l: 0,
-        },
+        r: new UintBcap(8),
 
         reset() {
             cpu.pc   = 0x0;
@@ -50,7 +41,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x02: // LD (BC), A
-                    mem.write.b(fetchBC(), cpu.r.a);
+                    mem.write.b(fetchBC(), ra);
                     break;
 
                 case 0x03: // INC BC
@@ -58,15 +49,15 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x04: // INC B
-                    INC(cpu.r.b);
+                    INC(rb);
                     break;
 
                 case 0x05: // DEC B
-                    DEC(cpu.r.b);
+                    DEC(rb);
                     break;
 
                 case 0x06: // LD B, imm8
-                    LDRIMM8(cpu.r.b);
+                    LDRIMM8(rb);
                     break;
 
                 case 0x07: // RLCA
@@ -88,7 +79,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x0a: // LD A, (BC)
-                    cpu.r.a = mem.read.b(fetchBC());
+                    ra = mem.read.b(fetchBC());
                     break;
 
                 case 0x0b: // DEC BC
@@ -96,15 +87,15 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x0c: // INC C
-                    INC(cpu.r.c);
+                    INC(rc);
                     break;
 
                 case 0x0d: // DEC C
-                    DEC(cpu.r.c);
+                    DEC(rc);
                     break;
 
                 case 0x0e: // LD C, imm8
-                    LDRIMM8(cpu.r.c);
+                    LDRIMM8(rc);
                     break;
 
                 case 0x0f: // RRCA
@@ -118,7 +109,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x12: // LD (DE), A
-                    mem.write.b(fetchDE(), cpu.r.a);
+                    mem.write.b(fetchDE(), ra);
                     break;
 
                 case 0x13: // INC DE
@@ -126,15 +117,15 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x14: // INC D
-                    INC(cpu.r.d);
+                    INC(rd);
                     break;
 
                 case 0x15: // DEC D
-                    DEC(cpu.r.d);
+                    DEC(rd);
                     break;
 
                 case 0x16: // LD D, imm8
-                    LDRIMM8(cpu.r.d);
+                    LDRIMM8(rd);
                     break;
 
                 case 0x17: // RLA
@@ -155,7 +146,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x1a: // LD A, (DE)
-                    cpu.r.a = mem.read.b(fetchDE());
+                    ra = mem.read.b(fetchDE());
                     break;
 
                 case 0x1b: // DEC DE
@@ -165,15 +156,15 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x1c: // INC E
-                    INC(cpu.r.e);
+                    INC(re);
                     break;
 
                 case 0x1d: // DEC E
-                    DEC(cpu.r.e);
+                    DEC(re);
                     break;
 
                 case 0x1e: // LD E, imm8
-                    LDRIMM8(cpu.r.e);
+                    LDRIMM8(re);
                     break;
 
                 case 0x1f: // RR A
@@ -196,7 +187,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x22: // LDI (HL), A
-                    mem.write.b(fetchHL(), cpu.r.a);
+                    mem.write.b(fetchHL(), ra);
                     setHL(fetchHL() + 1);
                     break;
 
@@ -205,19 +196,19 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x24: // INC H
-                    INC(cpu.r.h);
+                    INC(rh);
                     break;
 
                 case 0x25: // DEC H
-                    DEC(cpu.r.h);
+                    DEC(rh);
                     break;
 
                 case 0x26: // LD H, imm8
-                    LDRIMM8(cpu.r.h);
+                    LDRIMM8(rh);
                     break;
 
                 case 0x27: // DAA
-                    tmp16 = cpu.r.a;
+                    tmp16 = ra;
 
                     if (isSetN) {
                         if (isSetH) {
@@ -238,9 +229,9 @@ GameBowie.CstrSharpSM83 = function() {
                         }
                     }
 
-                    cpu.r.a = tmp16;
+                    ra = tmp16;
                     setH(0);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
 
                     if (tmp16 >= 0x100) {
                         setC(1);
@@ -265,7 +256,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x2a: // LDI A, (HL)
-                    cpu.r.a = mem.read.b(fetchHL());
+                    ra = mem.read.b(fetchHL());
                     setHL(fetchHL() + 1);
                     break;
 
@@ -274,19 +265,19 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x2c: // INC L
-                    INC(cpu.r.l);
+                    INC(rl);
                     break;
 
                 case 0x2d: // DEC L
-                    DEC(cpu.r.l);
+                    DEC(rl);
                     break;
 
                 case 0x2e: // LD L, imm8
-                    LDRIMM8(cpu.r.l);
+                    LDRIMM8(rl);
                     break;
 
                 case 0x2f: // CPL
-                    cpu.r.a = (~(cpu.r.a));
+                    ra = (~(ra));
                     setN(1);
                     setH(1);
                     break;
@@ -306,7 +297,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x32: // LDD (HL), A
-                    mem.write.b(fetchHL(), cpu.r.a);
+                    mem.write.b(fetchHL(), ra);
                     setHL(fetchHL() - 1);
                     break;
 
@@ -359,7 +350,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x3a: // LDD A, (HL)
-                    cpu.r.a = mem.read.b(fetchHL());
+                    ra = mem.read.b(fetchHL());
                     setHL(fetchHL() - 1);
                     break;
 
@@ -368,15 +359,15 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x3c: // INC A
-                    INC(cpu.r.a);
+                    INC(ra);
                     break;
 
                 case 0x3d: // DEC A
-                    DEC(cpu.r.a);
+                    DEC(ra);
                     break;
 
                 case 0x3e: // LD A, imm8
-                    LDRIMM8(cpu.r.a);
+                    LDRIMM8(ra);
                     break;
 
                 case 0x3f: // CCF
@@ -386,219 +377,219 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x40: // LD B, B
-                    LDRR(cpu.r.b, cpu.r.b);
+                    LDRR(rb, rb);
                     break;
 
                 case 0x41: // LD B, C
-                    LDRR(cpu.r.b, cpu.r.c);
+                    LDRR(rb, rc);
                     break;
 
                 case 0x42: // LD B, D
-                    LDRR(cpu.r.b, cpu.r.d);
+                    LDRR(rb, rd);
                     break;
 
                 case 0x43: // LD B, E
-                    LDRR(cpu.r.b, cpu.r.e);
+                    LDRR(rb, re);
                     break;
 
                 case 0x44: // LD B, H
-                    LDRR(cpu.r.b, cpu.r.h);
+                    LDRR(rb, rh);
                     break;
 
                 case 0x45: // LD B, L
-                    LDRR(cpu.r.b, cpu.r.l);
+                    LDRR(rb, rl);
                     break;
 
                 case 0x46: // LD B, (HL)
-                    cpu.r.b = mem.read.b(fetchHL());
+                    rb = mem.read.b(fetchHL());
                     break;
 
                 case 0x47: // LD B, A
-                    LDRR(cpu.r.b, cpu.r.a);
+                    LDRR(rb, ra);
                     break;
 
                 case 0x48: // LD C, B
-                    LDRR(cpu.r.c, cpu.r.b);
+                    LDRR(rc, rb);
                     break;
 
                 case 0x49: // LD C, C
-                    LDRR(cpu.r.c, cpu.r.c);
+                    LDRR(rc, rc);
                     break;
 
                 case 0x4a: // LD C, D
-                    LDRR(cpu.r.c, cpu.r.d);
+                    LDRR(rc, rd);
                     break;
 
                 case 0x4b: // LD C, E
-                    LDRR(cpu.r.c, cpu.r.e);
+                    LDRR(rc, re);
                     break;
 
                 case 0x4c: // LD C, H
-                    LDRR(cpu.r.c, cpu.r.h);
+                    LDRR(rc, rh);
                     break;
 
                 case 0x4d: // LD C, L
-                    LDRR(cpu.r.c, cpu.r.l);
+                    LDRR(rc, rl);
                     break;
 
                 case 0x4e: // LD C, (HL)
-                    cpu.r.c = mem.read.b(fetchHL());
+                    rc = mem.read.b(fetchHL());
                     break;
 
                 case 0x4f: // LD C, A
-                    LDRR(cpu.r.c, cpu.r.a);
+                    LDRR(rc, ra);
                     break;
 
                 case 0x50: // LD D, B
-                    LDRR(cpu.r.d, cpu.r.b);
+                    LDRR(rd, rb);
                     break;
 
                 case 0x51: // LD D, C
-                    LDRR(cpu.r.d, cpu.r.c);
+                    LDRR(rd, rc);
                     break;
 
                 case 0x52: // LD D, D
-                    LDRR(cpu.r.d, cpu.r.d);
+                    LDRR(rd, rd);
                     break;
 
                 case 0x53: // LD D, E
-                    LDRR(cpu.r.d, cpu.r.e);
+                    LDRR(rd, re);
                     break;
 
                 case 0x54: // LD D, H
-                    LDRR(cpu.r.d, cpu.r.h);
+                    LDRR(rd, rh);
                     break;
 
                 case 0x55: // LD D, L
-                    LDRR(cpu.r.d, cpu.r.l);
+                    LDRR(rd, rl);
                     break;
 
                 case 0x56: // LD D, (HL)
-                    cpu.r.d = mem.read.b(fetchHL());
+                    rd = mem.read.b(fetchHL());
                     break;
 
                 case 0x57: // LD D, A
-                    LDRR(cpu.r.d, cpu.r.a);
+                    LDRR(rd, ra);
                     break;
 
                 case 0x58: // LD E, B
-                    LDRR(cpu.r.e, cpu.r.b);
+                    LDRR(re, rb);
                     break;
 
                 case 0x59: // LD E, C
-                    LDRR(cpu.r.e, cpu.r.c);
+                    LDRR(re, rc);
                     break;
 
                 case 0x5a: // LD E, D
-                    LDRR(cpu.r.e, cpu.r.d);
+                    LDRR(re, rd);
                     break;
 
                 case 0x5b: // LD E, E
-                    LDRR(cpu.r.e, cpu.r.e);
+                    LDRR(re, re);
                     break;
 
                 case 0x5c: // LD E, H
-                    LDRR(cpu.r.e, cpu.r.h);
+                    LDRR(re, rh);
                     break;
 
                 case 0x5d: // LD E, L
-                    LDRR(cpu.r.e, cpu.r.l);
+                    LDRR(re, rl);
                     break;
 
                 case 0x5e: // LD E, (HL)
-                    cpu.r.e = mem.read.b(fetchHL());
+                    re = mem.read.b(fetchHL());
                     break;
 
                 case 0x5f: // LD E, A
-                    LDRR(cpu.r.e, cpu.r.a);
+                    LDRR(re, ra);
                     break;
 
                 case 0x60: // LD H, B
-                    LDRR(cpu.r.h, cpu.r.b);
+                    LDRR(rh, rb);
                     break;
 
                 case 0x61: // LD H, C
-                    LDRR(cpu.r.h, cpu.r.c);
+                    LDRR(rh, rc);
                     break;
 
                 case 0x62: // LD H, D
-                    LDRR(cpu.r.h, cpu.r.d);
+                    LDRR(rh, rd);
                     break;
 
                 case 0x63: // LD H, E
-                    LDRR(cpu.r.h, cpu.r.e);
+                    LDRR(rh, re);
                     break;
 
                 case 0x64: // LD H, H
-                    LDRR(cpu.r.h, cpu.r.h);
+                    LDRR(rh, rh);
                     break;
 
                 case 0x65: // LD H, L
-                    LDRR(cpu.r.h, cpu.r.l);
+                    LDRR(rh, rl);
                     break;
 
                 case 0x66: // LD H, (HL)
-                    cpu.r.h = mem.read.b(fetchHL());
+                    rh = mem.read.b(fetchHL());
                     break;
 
                 case 0x67: // LD H, A
-                    LDRR(cpu.r.h, cpu.r.a);
+                    LDRR(rh, ra);
                     break;
 
                 case 0x68: // LD L, B
-                    LDRR(cpu.r.l, cpu.r.b);
+                    LDRR(rl, rb);
                     break;
 
                 case 0x69: // LD L, C
-                    LDRR(cpu.r.l, cpu.r.c);
+                    LDRR(rl, rc);
                     break;
 
                 case 0x6a: // LD L, D
-                    LDRR(cpu.r.l, cpu.r.d);
+                    LDRR(rl, rd);
                     break;
 
                 case 0x6b: // LD L, E
-                    LDRR(cpu.r.l, cpu.r.e);
+                    LDRR(rl, re);
                     break;
 
                 case 0x6c: // LD L, H
-                    LDRR(cpu.r.l, cpu.r.h);
+                    LDRR(rl, rh);
                     break;
 
                 case 0x6d: // LD L, L
-                    LDRR(cpu.r.l, cpu.r.l);
+                    LDRR(rl, rl);
                     break;
 
                 case 0x6e: // LD L, (HL)
-                    cpu.r.l = mem.read.b(fetchHL());
+                    rl = mem.read.b(fetchHL());
                     break;
 
                 case 0x6f: // LD L, A
-                    LDRR(cpu.r.l, cpu.r.a);
+                    LDRR(rl, ra);
                     break;
 
                 case 0x70: // LD (HL), B
-                    mem.write.b(fetchHL(), cpu.r.b);
+                    mem.write.b(fetchHL(), rb);
                     break;
 
                 case 0x71: // LD (HL), C
-                    mem.write.b(fetchHL(), cpu.r.c);
+                    mem.write.b(fetchHL(), rc);
                     break;
 
                 case 0x72: // LD (HL), D
-                    mem.write.b(fetchHL(), cpu.r.d);
+                    mem.write.b(fetchHL(), rd);
                     break;
 
                 case 0x73: // LD (HL), E
-                    mem.write.b(fetchHL(), cpu.r.e);
+                    mem.write.b(fetchHL(), re);
                     break;
 
                 case 0x74: // LD (HL), H
-                    mem.write.b(fetchHL(), cpu.r.h);
+                    mem.write.b(fetchHL(), rh);
                     break;
 
                 case 0x75: // LD (HL), L
-                    mem.write.b(fetchHL(), cpu.r.l);
+                    mem.write.b(fetchHL(), rl);
                     break;
 
                 case 0x76: // HALT
@@ -606,432 +597,432 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0x77: // LD (HL), A
-                    mem.write.b(fetchHL(), cpu.r.a);
+                    mem.write.b(fetchHL(), ra);
                     break;
 
                 case 0x78: // LD A, B
-                    LDRR(cpu.r.a, cpu.r.b);
+                    LDRR(ra, rb);
                     break;
 
                 case 0x79: // LD A, C
-                    LDRR(cpu.r.a, cpu.r.c);
+                    LDRR(ra, rc);
                     break;
 
                 case 0x7a: // LD A, D
-                    LDRR(cpu.r.a, cpu.r.d);
+                    LDRR(ra, rd);
                     break;
 
                 case 0x7b: // LD A, E
-                    LDRR(cpu.r.a, cpu.r.e);
+                    LDRR(ra, re);
                     break;
 
                 case 0x7c: // LD A, H
-                    LDRR(cpu.r.a, cpu.r.h);
+                    LDRR(ra, rh);
                     break;
 
                 case 0x7d: // LD A, L
-                    LDRR(cpu.r.a, cpu.r.l);
+                    LDRR(ra, rl);
                     break;
 
                 case 0x7e: // LD A, (HL)
-                    cpu.r.a = mem.read.b(fetchHL());
+                    ra = mem.read.b(fetchHL());
                     break;
 
                 case 0x7f: // LD A, A
-                    LDRR(cpu.r.a, cpu.r.a);
+                    LDRR(ra, ra);
                     break;
 
                 case 0x80: // ADD B
-                    tmp32 = cpu.r.a + cpu.r.b;
-                    setH((cpu.r.a & 0xf) + (cpu.r.b & 0xf) > 0xf);
+                    tmp32 = ra + rb;
+                    setH((ra & 0xf) + (rb & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x81: // ADD C
-                    tmp32 = cpu.r.a + cpu.r.c;
-                    setH((cpu.r.a & 0xf) + (cpu.r.c & 0xf) > 0xf);
+                    tmp32 = ra + rc;
+                    setH((ra & 0xf) + (rc & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x82: // ADD D
-                    tmp32 = cpu.r.a + cpu.r.d;
-                    setH((cpu.r.a & 0xf) + (cpu.r.d & 0xf) > 0xf);
+                    tmp32 = ra + rd;
+                    setH((ra & 0xf) + (rd & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x83: // ADD E
-                    tmp32 = cpu.r.a + cpu.r.e;
-                    setH((cpu.r.a & 0xf) + (cpu.r.e & 0xf) > 0xf);
+                    tmp32 = ra + re;
+                    setH((ra & 0xf) + (re & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x84: // ADD H
-                    tmp32 = cpu.r.a + cpu.r.h;
-                    setH((cpu.r.a & 0xf) + (cpu.r.h & 0xf) > 0xf);
+                    tmp32 = ra + rh;
+                    setH((ra & 0xf) + (rh & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x85: // ADD L
-                    tmp32 = cpu.r.a + cpu.r.l;
-                    setH((cpu.r.a & 0xf) + (cpu.r.l & 0xf) > 0xf);
+                    tmp32 = ra + rl;
+                    setH((ra & 0xf) + (rl & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x86: // ADD (HL)
-                    tmp32 = cpu.r.a + mem.read.b(fetchHL());
-                    setH((tmp32 & 0xf) < (cpu.r.a & 0xf));
+                    tmp32 = ra + mem.read.b(fetchHL());
+                    setH((tmp32 & 0xf) < (ra & 0xf));
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x87: // ADD A
-                    tmp32 = cpu.r.a + cpu.r.a;
-                    setH((cpu.r.a & 0xf) + (cpu.r.a & 0xf) > 0xf);
+                    tmp32 = ra + ra;
+                    setH((ra & 0xf) + (ra & 0xf) > 0xf);
                     setC(tmp32 > 0xff);
                     setN(0);
-                    cpu.r.a = tmp32;
-                    setZ(!cpu.r.a);
+                    ra = tmp32;
+                    setZ(!ra);
                     break;
 
                 case 0x88: // ADC B
-                    tmp32 = cpu.r.a + cpu.r.b + isSetC >= 0x100;
+                    tmp32 = ra + rb + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.b & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.b + isSetC;
+                    setH(((ra & 0xf) + (rb & 0xf) + isSetC) >= 0x10);
+                    ra = ra + rb + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x89: // ADC C
-                    tmp32 = cpu.r.a + cpu.r.c + isSetC >= 0x100;
+                    tmp32 = ra + rc + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.c & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.c + isSetC;
+                    setH(((ra & 0xf) + (rc & 0xf) + isSetC) >= 0x10);
+                    ra = ra + rc + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8a: // ADC D
-                    tmp32 = cpu.r.a + cpu.r.d + isSetC >= 0x100;
+                    tmp32 = ra + rd + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.d & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.d + isSetC;
+                    setH(((ra & 0xf) + (rd & 0xf) + isSetC) >= 0x10);
+                    ra = ra + rd + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8b: // ADC E
-                    tmp32 = cpu.r.a + cpu.r.e + isSetC >= 0x100;
+                    tmp32 = ra + re + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.e & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.e + isSetC;
+                    setH(((ra & 0xf) + (re & 0xf) + isSetC) >= 0x10);
+                    ra = ra + re + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8c: // ADC H
-                    tmp32 = cpu.r.a + cpu.r.h + isSetC >= 0x100;
+                    tmp32 = ra + rh + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.h & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.h + isSetC;
+                    setH(((ra & 0xf) + (rh & 0xf) + isSetC) >= 0x10);
+                    ra = ra + rh + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8d: // ADC L
-                    tmp32 = cpu.r.a + cpu.r.l + isSetC >= 0x100;
+                    tmp32 = ra + rl + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.l & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.l + isSetC;
+                    setH(((ra & 0xf) + (rl & 0xf) + isSetC) >= 0x10);
+                    ra = ra + rl + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8e: // ADC (HL)
                     tmp8 = mem.read.b(fetchHL());
-                    tmp32 = cpu.r.a + tmp8 + isSetC >= 0x100;
+                    tmp32 = ra + tmp8 + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (tmp8 & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + tmp8 + isSetC;
+                    setH(((ra & 0xf) + (tmp8 & 0xf) + isSetC) >= 0x10);
+                    ra = ra + tmp8 + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x8f: // ADC A
-                    tmp32 = cpu.r.a + cpu.r.a + isSetC >= 0x100;
+                    tmp32 = ra + ra + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (cpu.r.a & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + cpu.r.a + isSetC;
+                    setH(((ra & 0xf) + (ra & 0xf) + isSetC) >= 0x10);
+                    ra = ra + ra + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     break;
 
                 case 0x90: // SUB B
-                    SUBR(cpu.r.b);
+                    SUBR(rb);
                     break;
 
                 case 0x91: // SUB C
-                    SUBR(cpu.r.c);
+                    SUBR(rc);
                     break;
 
                 case 0x92: // SUB D
-                    SUBR(cpu.r.d);
+                    SUBR(rd);
                     break;
 
                 case 0x93: // SUB E
-                    SUBR(cpu.r.e);
+                    SUBR(re);
                     break;
 
                 case 0x94: // SUB H
-                    SUBR(cpu.r.h);
+                    SUBR(rh);
                     break;
 
                 case 0x95: // SUB L
-                    SUBR(cpu.r.l);
+                    SUBR(rl);
                     break;
 
                 case 0x96: // SUB (HL)
                     tmp8 = mem.read.b(fetchHL());
-                    setC((cpu.r.a - tmp8) < 0);
-                    setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    setC((ra - tmp8) < 0);
+                    setH(((ra - tmp8) & 0xf) > (ra & 0xf));
+                    ra -= tmp8;
+                    setZ(!ra);
                     setN(1);
                     break;
 
                 case 0x97: // SUB A
-                    SUBR(cpu.r.a);
+                    SUBR(ra);
                     break;
 
                 case 0x98: // SBC B
-                    tmp8 = isSetC + cpu.r.b;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.b & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.b - isSetC) < 0);
+                    tmp8 = isSetC + rb;
+                    setH(((ra & 0xf) - (rb & 0xf) - isSetC) < 0);
+                    setC((ra - rb - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x99: // SBC C
-                    tmp8 = isSetC + cpu.r.c;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.c & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.c - isSetC) < 0);
+                    tmp8 = isSetC + rc;
+                    setH(((ra & 0xf) - (rc & 0xf) - isSetC) < 0);
+                    setC((ra - rc - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x9a: // SBC D
-                    tmp8 = isSetC + cpu.r.d;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.d & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.d - isSetC) < 0);
+                    tmp8 = isSetC + rd;
+                    setH(((ra & 0xf) - (rd & 0xf) - isSetC) < 0);
+                    setC((ra - rd - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x9b: // SBC E
-                    tmp8 = isSetC + cpu.r.e;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.e & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.e - isSetC) < 0);
+                    tmp8 = isSetC + re;
+                    setH(((ra & 0xf) - (re & 0xf) - isSetC) < 0);
+                    setC((ra - re - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x9c: // SBC H
-                    tmp8 = isSetC + cpu.r.h;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.h & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.h - isSetC) < 0);
+                    tmp8 = isSetC + rh;
+                    setH(((ra & 0xf) - (rh & 0xf) - isSetC) < 0);
+                    setC((ra - rh - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x9d: // SBC L
-                    tmp8 = isSetC + cpu.r.l;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.l & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.l - isSetC) < 0);
+                    tmp8 = isSetC + rl;
+                    setH(((ra & 0xf) - (rl & 0xf) - isSetC) < 0);
+                    setC((ra - rl - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0x9e: // SBC (HL)
                     tmp8 = mem.read.b(fetchHL());
                     tmp8_2 = isSetC + tmp8;
-                    setH(((cpu.r.a & 0xf) - (tmp8 & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - tmp8 - isSetC) < 0);
+                    setH(((ra & 0xf) - (tmp8 & 0xf) - isSetC) < 0);
+                    setC((ra - tmp8 - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8_2;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8_2;
+                    setZ(!ra);
                     break;
 
                 case 0x9f: // SBC A
-                    tmp8 = isSetC + cpu.r.a;
-                    setH(((cpu.r.a & 0xf) - (cpu.r.a & 0xf) - isSetC) < 0);
-                    setC((cpu.r.a - cpu.r.a - isSetC) < 0);
+                    tmp8 = isSetC + ra;
+                    setH(((ra & 0xf) - (ra & 0xf) - isSetC) < 0);
+                    setC((ra - ra - isSetC) < 0);
                     setN(1);
-                    cpu.r.a -= tmp8;
-                    setZ(!cpu.r.a);
+                    ra -= tmp8;
+                    setZ(!ra);
                     break;
 
                 case 0xa0: // AND B
-                    ANDR(cpu.r.b);
+                    ANDR(rb);
                     break;
 
                 case 0xa1: // AND C
-                    ANDR(cpu.r.c);
+                    ANDR(rc);
                     break;
 
                 case 0xa2: // AND D
-                    ANDR(cpu.r.d);
+                    ANDR(rd);
                     break;
 
                 case 0xa3: // AND E
-                    ANDR(cpu.r.e);
+                    ANDR(re);
                     break;
 
                 case 0xa4: // AND H
-                    ANDR(cpu.r.h);
+                    ANDR(rh);
                     break;
 
                 case 0xa5: // AND L
-                    ANDR(cpu.r.l);
+                    ANDR(rl);
                     break;
 
                 case 0xa6: // AND (HL)
-                    cpu.r.a &= mem.read.b(fetchHL());
-                    setZ(!cpu.r.a);
+                    ra &= mem.read.b(fetchHL());
+                    setZ(!ra);
                     setH(1);
                     setN(0);
                     setC(0);
                     break;
 
                 case 0xa7: // AND A
-                    ANDR(cpu.r.a);
+                    ANDR(ra);
                     break;
 
                 case 0xa8: // XOR B
-                    XORR(cpu.r.b);
+                    XORR(rb);
                     break;
 
                 case 0xa9: // XOR C
-                    XORR(cpu.r.c);
+                    XORR(rc);
                     break;
 
                 case 0xaa: // XOR D
-                    XORR(cpu.r.d);
+                    XORR(rd);
                     break;
 
                 case 0xab: // XOR E
-                    XORR(cpu.r.e);
+                    XORR(re);
                     break;
 
                 case 0xac: // XOR H
-                    XORR(cpu.r.h);
+                    XORR(rh);
                     break;
 
                 case 0xad: // XOR L
-                    XORR(cpu.r.l);
+                    XORR(rl);
                     break;
 
                 case 0xae: // XOR (HL)
-                    cpu.r.a ^= mem.read.b(fetchHL());
-                    cpu.r.f = (!cpu.r.a) << 7;
+                    ra ^= mem.read.b(fetchHL());
+                    rf = (!ra) << 7;
                     break;
 
                 case 0xaf: // XOR A
-                    XORR(cpu.r.a);
+                    XORR(ra);
                     break;
 
                 case 0xb0: // OR B
-                    ORR(cpu.r.b);
+                    ORR(rb);
                     break;
 
                 case 0xb1: // OR C
-                    ORR(cpu.r.c);
+                    ORR(rc);
                     break;
 
                 case 0xb2: // OR D
-                    ORR(cpu.r.d);
+                    ORR(rd);
                     break;
 
                 case 0xb3: // OR E
-                    ORR(cpu.r.e);
+                    ORR(re);
                     break;
 
                 case 0xb4: // OR H
-                    ORR(cpu.r.h);
+                    ORR(rh);
                     break;
 
                 case 0xb5: // OR L
-                    ORR(cpu.r.l);
+                    ORR(rl);
                     break;
 
                 case 0xb6: // OR (HL)
-                    cpu.r.a |= mem.read.b(fetchHL());
-                    cpu.r.f = (!cpu.r.a) << 7;
+                    ra |= mem.read.b(fetchHL());
+                    rf = (!ra) << 7;
                     break;
 
                 case 0xb7: // OR A
-                    ORR(cpu.r.a);
+                    ORR(ra);
                     break;
 
                 case 0xb8: // CP B
-                    CPR(cpu.r.b);
+                    CPR(rb);
                     break;
 
                 case 0xb9: // CP C
-                    CPR(cpu.r.c);
+                    CPR(rc);
                     break;
 
                 case 0xba: // CP D
-                    CPR(cpu.r.d);
+                    CPR(rd);
                     break;
 
                 case 0xbb: // CP E
-                    CPR(cpu.r.e);
+                    CPR(re);
                     break;
 
                 case 0xbc: // CP H
-                    CPR(cpu.r.h);
+                    CPR(rh);
                     break;
 
                 case 0xbd: // CP L
-                    CPR(cpu.r.l);
+                    CPR(rl);
                     break;
 
                 case 0xbe: // CP (HL)
                     tmp8 = mem.read.b(fetchHL());
-                    setZ(cpu.r.a == tmp8);
-                    setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
+                    setZ(ra == tmp8);
+                    setH(((ra - tmp8) & 0xf) > (ra & 0xf));
                     setN(1);
-                    setC((cpu.r.a - tmp8) < 0);
+                    setC((ra - tmp8) < 0);
                     break;
 
                 case 0xbf: // CP A
-                    CPR(cpu.r.a);
+                    CPR(ra);
                     break;
 
                 case 0xc0: // RET NZ
@@ -1079,11 +1070,11 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0xc6: // ADD A, imm8
                     tmp8 = mem.read.b(cpu.pc);
-                    setC((cpu.r.a + tmp8) >= 0x100);
-                    setH(((cpu.r.a + tmp8) & 0xf) < (cpu.r.a & 0xf));
-                    cpu.r.a += tmp8;
+                    setC((ra + tmp8) >= 0x100);
+                    setH(((ra + tmp8) & 0xf) < (ra & 0xf));
+                    ra += tmp8;
                     setN(0);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     cpu.pc += 1;
                     break;
 
@@ -1140,12 +1131,12 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0xce: // ADC a, imm8
                     tmp8 = mem.read.b(cpu.pc);
-                    tmp32 = cpu.r.a + tmp8 + isSetC >= 0x100;
+                    tmp32 = ra + tmp8 + isSetC >= 0x100;
                     setN(0);
-                    setH(((cpu.r.a & 0xf) + (tmp8 & 0xf) + isSetC) >= 0x10);
-                    cpu.r.a = cpu.r.a + tmp8 + isSetC;
+                    setH(((ra & 0xf) + (tmp8 & 0xf) + isSetC) >= 0x10);
+                    ra = ra + tmp8 + isSetC;
                     setC(tmp32);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     cpu.pc += 1;
                     break;
 
@@ -1197,11 +1188,11 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0xd6: // SUB A, imm8
                     tmp8 = mem.read.b(cpu.pc);
-                    setC((cpu.r.a - tmp8) < 0);
-                    setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
-                    cpu.r.a -= tmp8;
+                    setC((ra - tmp8) < 0);
+                    setH(((ra - tmp8) & 0xf) > (ra & 0xf));
+                    ra -= tmp8;
                     setN(1);
-                    setZ(!cpu.r.a);
+                    setZ(!ra);
                     cpu.pc += 1;
                     break;
 
@@ -1249,11 +1240,11 @@ GameBowie.CstrSharpSM83 = function() {
                 case 0xde: // SBC A, imm8
                     tmp8 = mem.read.b(cpu.pc);
                     tmp8_2 = isSetC;
-                    setH(((tmp8 & 0xf) + isSetC) > (cpu.r.a & 0xf));
-                    setC(tmp8 + isSetC > cpu.r.a);
+                    setH(((tmp8 & 0xf) + isSetC) > (ra & 0xf));
+                    setC(tmp8 + isSetC > ra);
                     setN(1);
-                    cpu.r.a -= (tmp8_2 + tmp8);
-                    setZ(!cpu.r.a);
+                    ra -= (tmp8_2 + tmp8);
+                    setZ(!ra);
                     cpu.pc += 1;
                     break;
 
@@ -1264,7 +1255,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xe0: // LD (FF00 + imm8), A
-                    mem.write.b(0xff00 + mem.read.b(cpu.pc), cpu.r.a);
+                    mem.write.b(0xff00 + mem.read.b(cpu.pc), ra);
                     cpu.pc += 1;
                     break;
 
@@ -1274,7 +1265,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xe2: // LD (FF00 + C), A
-                    mem.write.b(0xff00 + cpu.r.c, cpu.r.a);
+                    mem.write.b(0xff00 + rc, ra);
                     break;
 
                 case 0xe5: // PUSH HL
@@ -1286,8 +1277,8 @@ GameBowie.CstrSharpSM83 = function() {
                     setN(0);
                     setH(1);
                     setC(0);
-                    cpu.r.a = mem.read.b(cpu.pc) & cpu.r.a;
-                    setZ(!cpu.r.a);
+                    ra = mem.read.b(cpu.pc) & ra;
+                    setZ(!ra);
                     cpu.pc += 1;
                     break;
 
@@ -1312,13 +1303,13 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xea: // LD (mem16), A
-                    mem.write.b(mem.read.h(cpu.pc), cpu.r.a);
+                    mem.write.b(mem.read.h(cpu.pc), ra);
                     cpu.pc += 2;
                     break;
 
                 case 0xee: // XOR A, imm8
-                    cpu.r.a ^= mem.read.b(cpu.pc);
-                    cpu.r.f = (!cpu.r.a) << 7;
+                    ra ^= mem.read.b(cpu.pc);
+                    rf = (!ra) << 7;
                     cpu.pc += 1;
                     break;
 
@@ -1329,7 +1320,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xf0: // LD A, (FF00 + imm8)
-                    cpu.r.a = mem.read.b(0xff00 + mem.read.b(cpu.pc));
+                    ra = mem.read.b(0xff00 + mem.read.b(cpu.pc));
                     cpu.pc += 1;
                     break;
 
@@ -1339,7 +1330,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xf2: // LD A, (FF00 + c)
-                    cpu.r.a = mem.read.b(0xff00 + cpu.r.c);
+                    ra = mem.read.b(0xff00 + rc);
                     break;
 
                 case 0xf3: // DI
@@ -1352,8 +1343,8 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xf6: // OR A, imm8
-                    cpu.r.a |= mem.read.b(cpu.pc);
-                    cpu.r.f = (!cpu.r.a) << 7;
+                    ra |= mem.read.b(cpu.pc);
+                    rf = (!ra) << 7;
                     cpu.pc += 1;
                     break;
 
@@ -1378,7 +1369,7 @@ GameBowie.CstrSharpSM83 = function() {
                     break;
 
                 case 0xfa: // LD A, (mem16)
-                    cpu.r.a = mem.read.b(mem.read.h(cpu.pc));
+                    ra = mem.read.b(mem.read.h(cpu.pc));
                     cpu.pc += 2;
                     break;
 
@@ -1388,10 +1379,10 @@ GameBowie.CstrSharpSM83 = function() {
 
                 case 0xfe: // CP A, imm8
                     tmp8 = mem.read.b(cpu.pc);
-                    setZ(cpu.r.a == tmp8);
+                    setZ(ra == tmp8);
                     setN(1);
-                    setH(((cpu.r.a - tmp8) & 0xf) > (cpu.r.a & 0xf));
-                    setC(cpu.r.a < tmp8);
+                    setH(((ra - tmp8) & 0xf) > (ra & 0xf));
+                    setC(ra < tmp8);
                     cpu.pc += 1;
                     break;
 
