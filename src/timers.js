@@ -18,11 +18,17 @@ GameBowie.CstrTimers = function() {
     // Exposed class functions/variables
     return {
         reset() {
+            enabled = false;
+            frames = 0;
+            divFrames = 0;
+            div = 0;
+            tima = 0;
+            tma = 0;
         },
 
         step() {
             if (++divFrames >= DIV_SPEED) {
-                divFrames  = 0;
+                divFrames = 0;
                 div++;
             }
 
