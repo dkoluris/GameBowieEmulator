@@ -35,7 +35,7 @@ GameBowie.CstrMem = function() {
                 }
 
                 for (let i = 0; i < 0x4000; i++) {
-                    mem.ram.ub[0x4000 + i] = rom[bank * 0x4000];
+                    mem.ram.ub[0x4000 + i] = rom[(bank * 0x4000) + i];
                 }
                 return false;
 
