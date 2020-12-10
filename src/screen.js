@@ -76,7 +76,7 @@ GameBowie.CstrScreen = function() {
             let maskBit  = 7 - (posX % 8);
             let colorNum = isBitSet(b1, maskBit) | (isBitSet(b2, maskBit) << 1);
 
-            emulator.pixel(lineX, lineY, palBackdrop.data[colorNum]);
+            emulator.drawPixel(lineX, lineY, palBackdrop.data[colorNum]);
         }
     }
 
@@ -108,7 +108,7 @@ GameBowie.CstrScreen = function() {
                         continue;
                     }
 
-                    emulator.pixel(posX + (7 - lineX), lineY, paletteNum ? palSprite2.data[colorNum] : palSprite1.data[colorNum]);
+                    emulator.drawPixel(posX + (7 - lineX), lineY, paletteNum ? palSprite2.data[colorNum] : palSprite1.data[colorNum]);
                 }
             }
         }

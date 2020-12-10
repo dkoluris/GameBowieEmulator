@@ -33,6 +33,7 @@ GameBowie.CstrMain = function() {
     }
 
     function run() {
+        emulator.clearScreen();
         suspended = false;
 
         while (!suspended) {
@@ -55,7 +56,14 @@ GameBowie.CstrMain = function() {
             div.dropzone = dropzone;
         },
 
-        pixel(h, v, color) {
+        clearScreen() {
+            ctx.clearRect(0, 0, 480 - 1, 432 - 1);
+            ctx.rect(0, 0, 480 - 1, 432 - 1);
+            ctx.fillColor = '#337053';
+            ctx.fill();
+        },
+
+        drawPixel(h, v, color) {
             ctx.fillColor = palette[color];
             ctx.fillRect(h * 2 + h, v * 2 + v, 2, 2);
         },

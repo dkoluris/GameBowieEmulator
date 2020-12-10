@@ -87,7 +87,7 @@ canvas {
     position: relative;
     background: #151515;
     min-height: 250px;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 #screen {
     display: block;
