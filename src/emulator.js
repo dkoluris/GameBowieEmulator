@@ -56,8 +56,8 @@ GameBowie.CstrMain = function() {
         },
 
         pixel(h, v, color) {
-            ctx.fillStyle = palette[color];
-            ctx.fillRect(h, v, 1, 1);
+            ctx.fillColor = palette[color];
+            ctx.fillRect(h * 2 + h, v * 2 + v, 2, 2);
         },
 
         openFile(file) {
