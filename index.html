@@ -79,6 +79,14 @@
         $(document).keyup(function(e) {
           input.update(e.keyCode, false);
         });
+
+        window.addEventListener("gamepadconnected", function(e) {
+          emulator.pad.connected();
+        });
+
+        window.addEventListener("gamepaddisconnected", function(e) {
+          emulator.pad.disconnected();
+        });
       }, 1000);
     });
   </script>

@@ -34,6 +34,7 @@ GameBowie.CstrMain = function() {
 
     function run() {
         emulator.clearScreen();
+        emulator.pad.poll();
         suspended = false;
 
         while (!suspended) {
@@ -64,6 +65,34 @@ GameBowie.CstrMain = function() {
         drawPixel(h, v, color) {
             ctx.fillColor = palette[color];
             ctx.fillRect((h * 2) + h, (v * 2) + v, 2, 2);
+        },
+
+        pad: {
+            enabled: false,
+
+            connected() {
+                emulator.pad.enabled = true;
+            },
+
+            disconnected() {
+                emulator.pad.enabled = true;
+            },
+
+            poll() {
+                if (emulator.pad.enabled) {
+                    const btns = navigator.getGamepads()[0].buttons;
+                    input.updateGamepad([// Xbox | Nintendo
+                        btns[15].pressed, // ->   | ->
+                        btns[14].pressed, // <-   | <-
+                        btns[12].pressed, // Up   | Up
+                        btns[13].pressed, // Down | Down
+                        btns[ 0].pressed, // A    | B
+                        btns[ 1].pressed, // B    | A
+                        btns[ 9].pressed, // Menu | Select
+                        btns[ 8].pressed, // View | Start
+                    ]);
+                }
+            }
         },
 
         openFile(file) {

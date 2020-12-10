@@ -28,6 +28,17 @@ GameBowie.CstrController = function() {
             btnState = 0;
         },
 
+        updateGamepad(btn) {
+            for (let i = 0; i < btn.length; i++) {
+                if (btn[i]) {
+                    btnState |= (1 << i);
+                }
+                else {
+                    btnState &= (1 << i) ^ 0xff;
+                }
+            }
+        },
+
         update(code, pressed) {
             switch (code) {
                 case 39: // ->
