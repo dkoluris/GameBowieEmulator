@@ -48,17 +48,17 @@ GameBowie.CstrScreen = function() {
 
             if (control.windowEnabled && lineY >= window.v && lineX >= window.h - 7) {
                 tileMap = control.windowTileMap ? LCD_BG_TILE_MAP__1 : LCD_BG_TILE_MAP__0;
-                posY = lineY - (window.v);
-                posX = lineX - (window.h - 7);
+                posY = (lineY - (window.v    )) % 256;
+                posX = (lineX - (window.h - 7)) % 256;
             }
             else {
                 tileMap = control.  backTileMap ? LCD_BG_TILE_MAP__1 : LCD_BG_TILE_MAP__0;
-                posY = lineY + (scroll.v);
-                posX = lineX + (scroll.h - 0);
+                posY = (lineY + (scroll.v    )) % 256;
+                posX = (lineX + (scroll.h - 0)) % 256;
             }
 
-            let tileRow      = ((posY / 8) >>> 0) * 32;
-            let tileColumn   = ((posX / 8) >>> 0);
+            let tileRow      = ((posY / 8) >> 0) * 32;
+            let tileColumn   = ((posX / 8) >> 0);
             let tileNum      = mem.rawAccess(tileMap + tileRow + tileColumn);
             let tileLocation = 0;
 
