@@ -35,7 +35,7 @@ GameBowie.CstrMem = function() {
                 }
 
                 for (let i = 0; i < 0x4000; i++) {
-                    mem.ram.ub[0x4000 + i] = rom[(bank * 0x4000) + i];
+                    mem.ram[0x4000 + i] = rom[(bank * 0x4000) + i];
                 }
                 return false;
 
@@ -53,11 +53,11 @@ GameBowie.CstrMem = function() {
 
     // Exposed class functions/variables
     return {
-        ram: union(0x10000),
+        ram: new UintBcap(0x10000),
 
         reset() {
             // Reset all
-            mem.ram.ub.fill(0);
+            mem.ram.fill(0);
         },
 
         parseROM(resp) {
@@ -85,7 +85,7 @@ GameBowie.CstrMem = function() {
 
             // Write at most two mem banks
             for (let i = 0; i < 2 * 0x4000; i++) {
-                mem.ram.ub[i] = rom[i];
+                mem.ram[i] = rom[i];
             }
         },
 
@@ -113,7 +113,7 @@ GameBowie.CstrMem = function() {
 
                 switch (true) {
                     case (addr >= 0xe000 && addr <= 0xfdff): // Prohibited: Echo RAM ???
-                        mem.ram.ub[addr - 0x2000] = data;
+                        mem.ram[addr - 0x2000] = data;
                         return;
 
                     case (addr >= 0x8000 && addr <= 0x9fff): // VRAM, cleared on boot
@@ -131,7 +131,7 @@ GameBowie.CstrMem = function() {
                     case (addr == 0xff4e):
                     case (addr == 0xff4f):
                     case (addr >= 0xff51 && addr <= 0xff7f): // ?
-                        mem.ram.ub[addr] = data;
+                        mem.ram[addr] = data;
                         return;
 
                     case (addr == 0xff00): // Gamepad
@@ -181,7 +181,7 @@ GameBowie.CstrMem = function() {
 
                 switch (true) {
                     case (addr >= 0xe000 && addr <= 0xfdff): // Prohibited: Echo RAM ???
-                        return mem.ram.ub[addr - 0x2000];
+                        return mem.ram[addr - 0x2000];
 
                     case (addr >= 0x0000 && addr <= 0x3fff): // ROM Bank 0
                     case (addr >= 0x4000 && addr <= 0x7fff): // ROM Bank 1
@@ -194,7 +194,7 @@ GameBowie.CstrMem = function() {
                     case (addr >= 0xff50 && addr <= 0xff7f): // ?
                     case (addr == 0xff01): // ?
                     case (addr == 0xff02): // ?
-                        return mem.ram.ub[addr];
+                        return mem.ram[addr];
 
                     case (addr == 0xff00): // Gamepad
                         return input.read();
@@ -224,7 +224,7 @@ GameBowie.CstrMem = function() {
         },
 
         rawAccess(addr) {
-            return mem.ram.ub[addr];
+            return mem.ram[addr];
         }
     };
 };

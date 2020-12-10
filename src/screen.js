@@ -158,7 +158,7 @@ GameBowie.CstrScreen = function() {
 
         step() {
             if (dma.frames > 0) {
-                mem.ram.ub[LCD_START_OAM + dma.offset] = mem.ram.ub[dma.src + dma.offset];
+                mem.ram[LCD_START_OAM + dma.offset] = mem.ram[dma.src + dma.offset];
                 dma.frames--;
                 dma.offset++;
             }
