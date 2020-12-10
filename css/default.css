@@ -89,6 +89,12 @@ canvas {
     min-height: 250px;
     border-radius: 15px;
 }
+#main .screen > .shade {
+    position:absolute;
+    width: 479px;
+    height: 431px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
 #screen {
     display: block;
     background: #151515;
