@@ -73,12 +73,10 @@
 
         $(document).keydown(function(e) {
           input.update(e.keyCode, true);
-          //console.info('down' + e.keyCode);
         });
 
         $(document).keyup(function(e) {
           input.update(e.keyCode, false);
-          //console.info('up' + e.keyCode);
         });
       }, 1000);
     });

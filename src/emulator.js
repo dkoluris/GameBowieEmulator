@@ -29,7 +29,7 @@ GameBowie.CstrMain = function() {
            screen.reset();
            timers.reset();
 
-        emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.01, a JavaScript based GAMEBOY emulator');
+        emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.02, a JavaScript based GAMEBOY emulator');
     }
 
     function run() {
@@ -57,15 +57,13 @@ GameBowie.CstrMain = function() {
         },
 
         clearScreen() {
-            ctx.clearRect(0, 0, 480 - 1, 432 - 1);
-            ctx.rect(0, 0, 480 - 1, 432 - 1);
-            ctx.fillColor = '#337053';
-            ctx.fill();
+            ctx.fillColor = palette[2];
+            ctx.fillRect(0, 0, 480 - 1, 432 - 1);
         },
 
         drawPixel(h, v, color) {
             ctx.fillColor = palette[color];
-            ctx.fillRect(h * 2 + h, v * 2 + v, 2, 2);
+            ctx.fillRect((h * 2) + h, (v * 2) + v, 2, 2);
         },
 
         openFile(file) {
