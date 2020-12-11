@@ -25,10 +25,9 @@
 
         <!-- Screen -->
         <div class="screen">
-          <canvas id="screen" width="479" height="431">
+          <canvas id="screen" width="320" height="240">
             No support for <code>canvas</code> element.
           </canvas>
-          <div class="shade"></div>
         </div>
       </div>
     </div>
@@ -84,11 +83,11 @@
         });
 
         window.addEventListener('gamepadconnected', (event) => {
-          emulator.pad.connected();
+          emulator.pad.connection(true);
         });
 
         window.addEventListener('gamepaddisconnected', (event) => {
-          emulator.pad.disconnected();
+          emulator.pad.connection(false);
         });
       }, 1000);
     });

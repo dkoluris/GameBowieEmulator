@@ -4,6 +4,7 @@
 #define dest            target
 #define fetchContext    getContext
 #define fillColor       fillStyle
+#define hei             height
 #define readAsBuffer    readAsArrayBuffer
 #define responseSort    responseType
 #define Text            String
