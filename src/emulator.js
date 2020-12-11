@@ -28,8 +28,6 @@ GameBowie.CstrMain = function() {
               mem.reset();
            screen.reset();
            timers.reset();
-
-        emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.02, a JavaScript based GAMEBOY emulator');
     }
 
     function run() {
@@ -55,6 +53,8 @@ GameBowie.CstrMain = function() {
             ctx = screen[0].fetchContext('2d');
             div.output   = output;
             div.dropzone = dropzone;
+
+            emulator.consoleInformation(MSG_INFO, 'Welcome to GameBowie 0.03, a JavaScript based GAMEBOY emulator');
         },
 
         clearScreen() {

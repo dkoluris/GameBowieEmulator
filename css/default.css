@@ -4,14 +4,14 @@
     font-family: 'GB Brand';
 }
 @font-face {
-    src: url('../res/sans-mt-medium.woff2');
+    src: url('../res/oswald-400.woff2');
     font-family: 'GB';
 }
 
 /* Text Selection */
 ::selection {
     color: white;
-    background: rgba(255, 255, 255, .15);
+    background: rgba(0, 0, 0, .5);
 }
 
 /* ScrollBar */
@@ -19,7 +19,7 @@
     width: 3px;
 }
 ::-webkit-scrollbar-thumb {
-    background: #93a0a8;
+    background: #991e57;
 }
 
 /* General */
@@ -72,7 +72,7 @@ canvas {
     width: 32px;
 }
 #main .brand {
-    color: #1d2089;
+    color: #4a5290;
     font: normal 29px 'GB Brand', sans-serif;
     letter-spacing: 1px;
     MARGIN-left: 15px;
@@ -90,14 +90,14 @@ canvas {
     border-radius: 15px;
 }
 #main .screen > .shade {
-    position:absolute;
+    position: absolute;
     width: 479px;
     height: 431px;
     background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
 }
 #screen {
     display: block;
-    background: #151515;
+    background: #e1f7d1;
 }
 
 /* Panels */
@@ -107,7 +107,7 @@ canvas {
     margin-bottom: 15px;
 }
 #footer .header {
-    color: #1d2089;
+    color: #4a5290;
     font: normal 21px 'GB', sans-serif;
     letter-spacing: 1px;
     margin-bottom: 3px;
@@ -135,7 +135,7 @@ canvas {
     color: #991e57;
 }
 #output > .info > span, #output > .error > span {
-    color: #1d2089;
+    color: #4a5290;
 }
 #footer .panel-r {
     display: flex;
@@ -164,7 +164,7 @@ canvas {
     margin-bottom: 20px;
 }
 #dropzone > div:nth-child(2) {
-    color: #1d2089;
+    color: #4a5290;
     font: normal 13px 'GB', sans-serif;
     padding: 0 15px 0 15px;
 }

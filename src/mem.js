@@ -152,6 +152,7 @@ GameBowie.CstrMem = function() {
 
                     case (addr == 0xff50): // Boot ROM completed
                         bootstrap.enabled = false;
+                        emulator.consoleInformation(MSG_INFO, 'Boot ROM has completed the process');
                         return;
 
                     case (addr == 0xff0f): // Interrupt
