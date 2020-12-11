@@ -75,7 +75,7 @@ GameBowie.CstrMain = function() {
             },
 
             disconnected() {
-                emulator.pad.enabled = true;
+                emulator.pad.enabled = false;
             },
 
             poll() {
