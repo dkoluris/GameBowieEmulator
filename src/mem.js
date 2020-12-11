@@ -79,7 +79,8 @@ GameBowie.CstrMem = function() {
                     break;
 
                 default:
-                    emulator.error('ROM kind ' + emulator.hex(kind) + ' not supported');
+                    emulator.consoleInformation(MSG_ERROR, 'ROM kind ' + emulator.hex(kind) + ' not supported');
+                    emulator.error(' ');
                     break;
             }
 
