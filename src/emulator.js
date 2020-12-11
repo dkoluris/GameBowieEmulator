@@ -81,7 +81,7 @@ GameBowie.CstrMain = function() {
             poll() {
                 if (emulator.pad.enabled) {
                     const btns = navigator.getGamepads()[0].buttons;
-                    input.updateGamepad([// Xbox | Nintendo
+                    input.updateGamepad([ // Xbox | Nintendo
                         btns[15].pressed, // ->   | ->
                         btns[14].pressed, // <-   | <-
                         btns[12].pressed, // Up   | Up

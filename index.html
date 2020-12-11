@@ -58,9 +58,12 @@
 
   <script>
     function chooseFile() {
-      $('<input type="file">').on('change', function () {
-        emulator.openFile(this.files[0]);
-      }).click();
+      let input = document.createElement('input');
+      input.type = 'file';
+      input.onchange = (event) => {
+        emulator.openFile(event.target.files[0]);
+      }
+      input.click();
     }
 
     $(function() {
@@ -72,19 +75,19 @@
       setTimeout(function() {
         emulator.init(screen, output, dropzone);
 
-        $(document).keydown(function(e) {
-          input.update(e.keyCode, true);
+        window.addEventListener('keydown', (event) => {
+          input.update(event.keyCode, true);
         });
 
-        $(document).keyup(function(e) {
-          input.update(e.keyCode, false);
+        window.addEventListener('keyup', (event) => {
+          input.update(event.keyCode, false);
         });
 
-        window.addEventListener("gamepadconnected", function(e) {
+        window.addEventListener('gamepadconnected', (event) => {
           emulator.pad.connected();
         });
 
-        window.addEventListener("gamepaddisconnected", function(e) {
+        window.addEventListener('gamepaddisconnected', (event) => {
           emulator.pad.disconnected();
         });
       }, 1000);
