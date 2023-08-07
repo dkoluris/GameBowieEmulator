@@ -1,4 +1,4 @@
-<h1>GameBowie</h1>
+<h1>GameBowie (<a href="https://naden.co">https://naden.co</a>)</h1>
 
 [![GitHub stars](https://img.shields.io/github/stars/dkoluris/GameBowie.svg?style=flat-square)](https://github.com/dkoluris/GameBowie/stargazers) [![GitHub license](https://img.shields.io/github/license/dkoluris/GameBowie.svg?style=flat-square)](https://github.com/dkoluris/GameBowie/blob/master/LICENSE) [![Twitter](https://img.shields.io/twitter/url/https/github.com/dkoluris/GameBowie.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fdkoluris%2FGameBowie)
 
